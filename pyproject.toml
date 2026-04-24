@@ -1,0 +1,23 @@
+[project]
+name = "financial-agent"
+version = "0.1.0"
+description = "Autonomous Financial Advisor Chat Agent"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.6",
+]
+
+[project.optional-dependencies]
+agent = [
+    "anthropic>=0.39",
+    "langfuse>=2.50",
+    "streamlit>=1.36",
+    "python-dotenv>=1.0",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
