@@ -10,6 +10,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from financial_agent.observability import Tracer
 from financial_agent.reasoning.briefing import Briefing
 from financial_agent.reasoning.client import BaseLLMClient, LLMResponse
 from financial_agent.reasoning.context import ReasoningContext
@@ -24,21 +25,42 @@ class AgentRun:
     briefing: Briefing
     response: LLMResponse
     rule_based_confidence: float
+    trace: object | None = None  # Langfuse span (or None when tracing is off)
 
 
 class ReasoningAgent:
     """Single-shot briefing generator.
 
-    A future Phase 4 / chat agent will subclass or compose this to add
-    multi-turn behavior and tool use.
+    A future chat agent will subclass or compose this to add multi-turn
+    behavior and tool use. Optional `tracer` records Langfuse traces.
     """
 
-    def __init__(self, client: BaseLLMClient) -> None:
+    def __init__(self, client: BaseLLMClient, *, tracer: Tracer | None = None) -> None:
         self._client = client
+        self._tracer = tracer or Tracer()  # auto no-ops if keys not set
 
     def generate(self, context: ReasoningContext) -> AgentRun:
+        # Tracing scope for the whole briefing.
+        provider = type(self._client).__name__
+        model = getattr(self._client, "_model", "unknown")
+        trace = self._tracer.start_briefing(
+            context.portfolio_id, provider=provider, model=model
+        )
+
         user = render_user_prompt(context)
         response = self._client.complete(system=SYSTEM_PROMPT, user=user)
+
+        self._tracer.log_generation(
+            trace,
+            name="briefing.generation",
+            model=response.model,
+            system=SYSTEM_PROMPT,
+            user=user,
+            output=response.text,
+            input_tokens=response.input_tokens,
+            output_tokens=response.output_tokens,
+        )
+
         briefing = parse_briefing(response.text, portfolio_id=context.portfolio_id)
         rule_conf = self._rule_based_confidence(context, briefing)
         adjusted = self._reconcile_confidence(briefing.confidence, rule_conf)
@@ -58,7 +80,18 @@ class ReasoningAgent:
                 evidence_ids=briefing.evidence_ids,
                 raw_response=briefing.raw_response,
             )
-        return AgentRun(briefing=briefing, response=response, rule_based_confidence=rule_conf)
+        # Score the briefing with our rule-based check; eval layer adds more later.
+        self._tracer.log_score(trace, name="rule_based_confidence", value=rule_conf)
+        self._tracer.log_score(
+            trace, name="self_reported_confidence", value=briefing.confidence
+        )
+
+        return AgentRun(
+            briefing=briefing,
+            response=response,
+            rule_based_confidence=rule_conf,
+            trace=trace,
+        )
 
     # ------------------------------------------------------------------------
 
