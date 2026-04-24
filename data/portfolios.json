@@ -1,0 +1,710 @@
+{
+  "metadata": {
+    "date": "2026-04-21",
+    "data_source": "Mock Portfolio Data",
+    "currency": "INR"
+  },
+  "portfolios": {
+    "PORTFOLIO_001": {
+      "user_id": "USR001",
+      "user_name": "Rahul Sharma",
+      "portfolio_type": "DIVERSIFIED",
+      "risk_profile": "MODERATE",
+      "investment_horizon": "LONG_TERM",
+      "description": "Well-diversified portfolio across sectors with balanced equity-MF allocation",
+      "total_investment": 2500000,
+      "current_value": 2875420,
+      "overall_gain_loss": 375420,
+      "overall_gain_loss_percent": 15.02,
+      "holdings": {
+        "stocks": [
+          {
+            "symbol": "HDFCBANK",
+            "name": "HDFC Bank Ltd",
+            "sector": "BANKING",
+            "quantity": 100,
+            "avg_buy_price": 1520.00,
+            "current_price": 1542.30,
+            "investment_value": 152000,
+            "current_value": 154230,
+            "gain_loss": 2230,
+            "gain_loss_percent": 1.47,
+            "day_change": -5615,
+            "day_change_percent": -3.51,
+            "weight_in_portfolio": 5.36
+          },
+          {
+            "symbol": "TCS",
+            "name": "Tata Consultancy Services",
+            "sector": "INFORMATION_TECHNOLOGY",
+            "quantity": 50,
+            "avg_buy_price": 3850.00,
+            "current_price": 4125.80,
+            "investment_value": 192500,
+            "current_value": 206290,
+            "gain_loss": 13790,
+            "gain_loss_percent": 7.16,
+            "day_change": 3675,
+            "day_change_percent": 1.81,
+            "weight_in_portfolio": 7.17
+          },
+          {
+            "symbol": "INFY",
+            "name": "Infosys Ltd",
+            "sector": "INFORMATION_TECHNOLOGY",
+            "quantity": 100,
+            "avg_buy_price": 1580.00,
+            "current_price": 1678.25,
+            "investment_value": 158000,
+            "current_value": 167825,
+            "gain_loss": 9825,
+            "gain_loss_percent": 6.22,
+            "day_change": 3245,
+            "day_change_percent": 1.97,
+            "weight_in_portfolio": 5.84
+          },
+          {
+            "symbol": "RELIANCE",
+            "name": "Reliance Industries Ltd",
+            "sector": "ENERGY",
+            "quantity": 60,
+            "avg_buy_price": 2750.00,
+            "current_price": 2856.40,
+            "investment_value": 165000,
+            "current_value": 171384,
+            "gain_loss": 6384,
+            "gain_loss_percent": 3.87,
+            "day_change": -2358,
+            "day_change_percent": -1.36,
+            "weight_in_portfolio": 5.96
+          },
+          {
+            "symbol": "SUNPHARMA",
+            "name": "Sun Pharmaceutical",
+            "sector": "PHARMACEUTICALS",
+            "quantity": 80,
+            "avg_buy_price": 1150.00,
+            "current_price": 1245.80,
+            "investment_value": 92000,
+            "current_value": 99664,
+            "gain_loss": 7664,
+            "gain_loss_percent": 8.33,
+            "day_change": 1632,
+            "day_change_percent": 1.67,
+            "weight_in_portfolio": 3.47
+          },
+          {
+            "symbol": "HINDUNILVR",
+            "name": "Hindustan Unilever",
+            "sector": "FMCG",
+            "quantity": 40,
+            "avg_buy_price": 2380.00,
+            "current_price": 2456.75,
+            "investment_value": 95200,
+            "current_value": 98270,
+            "gain_loss": 3070,
+            "gain_loss_percent": 3.22,
+            "day_change": 458,
+            "day_change_percent": 0.47,
+            "weight_in_portfolio": 3.42
+          },
+          {
+            "symbol": "LT",
+            "name": "Larsen & Toubro",
+            "sector": "INFRASTRUCTURE",
+            "quantity": 30,
+            "avg_buy_price": 3200.00,
+            "current_price": 3425.60,
+            "investment_value": 96000,
+            "current_value": 102768,
+            "gain_loss": 6768,
+            "gain_loss_percent": 7.05,
+            "day_change": -936,
+            "day_change_percent": -0.90,
+            "weight_in_portfolio": 3.57
+          },
+          {
+            "symbol": "TATAMOTORS",
+            "name": "Tata Motors Ltd",
+            "sector": "AUTOMOBILE",
+            "quantity": 100,
+            "avg_buy_price": 820.00,
+            "current_price": 945.60,
+            "investment_value": 82000,
+            "current_value": 94560,
+            "gain_loss": 12560,
+            "gain_loss_percent": 15.32,
+            "day_change": 740,
+            "day_change_percent": 0.79,
+            "weight_in_portfolio": 3.29
+          }
+        ],
+        "mutual_funds": [
+          {
+            "scheme_code": "MF001",
+            "scheme_name": "HDFC Flexi Cap Fund - Direct Growth",
+            "category": "FLEXI_CAP",
+            "amc": "HDFC AMC",
+            "units": 5000,
+            "avg_nav": 185.50,
+            "current_nav": 212.45,
+            "investment_value": 927500,
+            "current_value": 1062250,
+            "gain_loss": 134750,
+            "gain_loss_percent": 14.53,
+            "day_change": -8498,
+            "day_change_percent": -0.80,
+            "weight_in_portfolio": 36.94,
+            "top_holdings": ["HDFCBANK", "ICICIBANK", "RELIANCE", "INFY", "TCS"]
+          },
+          {
+            "scheme_code": "MF002",
+            "scheme_name": "SBI Blue Chip Fund - Direct Growth",
+            "category": "LARGE_CAP",
+            "amc": "SBI AMC",
+            "units": 3500,
+            "avg_nav": 145.00,
+            "current_nav": 168.25,
+            "investment_value": 507500,
+            "current_value": 588875,
+            "gain_loss": 81375,
+            "gain_loss_percent": 16.03,
+            "day_change": -4711,
+            "day_change_percent": -0.80,
+            "weight_in_portfolio": 20.48,
+            "top_holdings": ["RELIANCE", "HDFCBANK", "INFY", "TCS", "ICICIBANK"]
+          },
+          {
+            "scheme_code": "MF003",
+            "scheme_name": "Axis Small Cap Fund - Direct Growth",
+            "category": "SMALL_CAP",
+            "amc": "Axis AMC",
+            "units": 800,
+            "avg_nav": 78.50,
+            "current_price": 91.30,
+            "investment_value": 62800,
+            "current_value": 73040,
+            "gain_loss": 10240,
+            "gain_loss_percent": 16.31,
+            "day_change": -1095,
+            "day_change_percent": -1.50,
+            "weight_in_portfolio": 2.54,
+            "top_holdings": ["Various Small Caps"]
+          },
+          {
+            "scheme_code": "MF004",
+            "scheme_name": "ICICI Prudential Technology Fund - Direct Growth",
+            "category": "SECTORAL_IT",
+            "amc": "ICICI Prudential AMC",
+            "units": 400,
+            "avg_nav": 132.00,
+            "current_nav": 141.16,
+            "investment_value": 52800,
+            "current_value": 56464,
+            "gain_loss": 3664,
+            "gain_loss_percent": 6.94,
+            "day_change": 678,
+            "day_change_percent": 1.22,
+            "weight_in_portfolio": 1.96,
+            "top_holdings": ["INFY", "TCS", "HCLTECH", "WIPRO", "TECHM"]
+          }
+        ]
+      },
+      "analytics": {
+        "sector_allocation": {
+          "BANKING": 8.52,
+          "INFORMATION_TECHNOLOGY": 15.97,
+          "ENERGY": 5.96,
+          "PHARMACEUTICALS": 3.47,
+          "FMCG": 3.42,
+          "INFRASTRUCTURE": 3.57,
+          "AUTOMOBILE": 3.29,
+          "DIVERSIFIED_MF": 59.96
+        },
+        "asset_type_allocation": {
+          "DIRECT_STOCKS": 38.08,
+          "MUTUAL_FUNDS": 61.92
+        },
+        "risk_metrics": {
+          "concentration_risk": false,
+          "single_stock_max_weight": 7.17,
+          "single_sector_max_weight": 15.97,
+          "beta": 0.95,
+          "volatility": "MODERATE"
+        },
+        "day_summary": {
+          "day_change_absolute": -12785,
+          "day_change_percent": -0.44,
+          "top_gainer": {
+            "symbol": "TCS",
+            "change_percent": 1.81
+          },
+          "top_loser": {
+            "symbol": "HDFCBANK",
+            "change_percent": -3.51
+          }
+        }
+      }
+    },
+    "PORTFOLIO_002": {
+      "user_id": "USR002",
+      "user_name": "Priya Patel",
+      "portfolio_type": "SECTOR_CONCENTRATED",
+      "risk_profile": "AGGRESSIVE",
+      "investment_horizon": "MEDIUM_TERM",
+      "description": "Banking and Financial Services heavy portfolio with high sector concentration",
+      "total_investment": 1800000,
+      "current_value": 2045680,
+      "overall_gain_loss": 245680,
+      "overall_gain_loss_percent": 13.65,
+      "holdings": {
+        "stocks": [
+          {
+            "symbol": "HDFCBANK",
+            "name": "HDFC Bank Ltd",
+            "sector": "BANKING",
+            "quantity": 300,
+            "avg_buy_price": 1480.00,
+            "current_price": 1542.30,
+            "investment_value": 444000,
+            "current_value": 462690,
+            "gain_loss": 18690,
+            "gain_loss_percent": 4.21,
+            "day_change": -16845,
+            "day_change_percent": -3.51,
+            "weight_in_portfolio": 22.62
+          },
+          {
+            "symbol": "ICICIBANK",
+            "name": "ICICI Bank Ltd",
+            "sector": "BANKING",
+            "quantity": 250,
+            "avg_buy_price": 1050.00,
+            "current_price": 1128.75,
+            "investment_value": 262500,
+            "current_value": 282187.50,
+            "gain_loss": 19687.50,
+            "gain_loss_percent": 7.50,
+            "day_change": -9112.50,
+            "day_change_percent": -3.13,
+            "weight_in_portfolio": 13.80
+          },
+          {
+            "symbol": "SBIN",
+            "name": "State Bank of India",
+            "sector": "BANKING",
+            "quantity": 400,
+            "avg_buy_price": 680.00,
+            "current_price": 752.40,
+            "investment_value": 272000,
+            "current_value": 300960,
+            "gain_loss": 28960,
+            "gain_loss_percent": 10.65,
+            "day_change": -9360,
+            "day_change_percent": -3.02,
+            "weight_in_portfolio": 14.71
+          },
+          {
+            "symbol": "KOTAKBANK",
+            "name": "Kotak Mahindra Bank",
+            "sector": "BANKING",
+            "quantity": 80,
+            "avg_buy_price": 1750.00,
+            "current_price": 1845.60,
+            "investment_value": 140000,
+            "current_value": 147648,
+            "gain_loss": 7648,
+            "gain_loss_percent": 5.46,
+            "day_change": -3572,
+            "day_change_percent": -2.36,
+            "weight_in_portfolio": 7.22
+          },
+          {
+            "symbol": "AXISBANK",
+            "name": "Axis Bank Ltd",
+            "sector": "BANKING",
+            "quantity": 150,
+            "avg_buy_price": 1020.00,
+            "current_price": 1085.30,
+            "investment_value": 153000,
+            "current_value": 162795,
+            "gain_loss": 9795,
+            "gain_loss_percent": 6.40,
+            "day_change": -4545,
+            "day_change_percent": -2.72,
+            "weight_in_portfolio": 7.96
+          },
+          {
+            "symbol": "BAJFINANCE",
+            "name": "Bajaj Finance Ltd",
+            "sector": "FINANCIAL_SERVICES",
+            "quantity": 40,
+            "avg_buy_price": 6500.00,
+            "current_price": 6845.30,
+            "investment_value": 260000,
+            "current_value": 273812,
+            "gain_loss": 13812,
+            "gain_loss_percent": 5.31,
+            "day_change": -5612,
+            "day_change_percent": -2.01,
+            "weight_in_portfolio": 13.38
+          },
+          {
+            "symbol": "HDFCLIFE",
+            "name": "HDFC Life Insurance",
+            "sector": "FINANCIAL_SERVICES",
+            "quantity": 200,
+            "avg_buy_price": 585.00,
+            "current_price": 625.40,
+            "investment_value": 117000,
+            "current_value": 125080,
+            "gain_loss": 8080,
+            "gain_loss_percent": 6.91,
+            "day_change": -2560,
+            "day_change_percent": -2.01,
+            "weight_in_portfolio": 6.11
+          },
+          {
+            "symbol": "INDUSINDBK",
+            "name": "IndusInd Bank",
+            "sector": "BANKING",
+            "quantity": 80,
+            "avg_buy_price": 1380.00,
+            "current_price": 1425.60,
+            "investment_value": 110400,
+            "current_value": 114048,
+            "gain_loss": 3648,
+            "gain_loss_percent": 3.30,
+            "day_change": -3416,
+            "day_change_percent": -2.91,
+            "weight_in_portfolio": 5.57
+          }
+        ],
+        "mutual_funds": [
+          {
+            "scheme_code": "MF005",
+            "scheme_name": "Nippon India Banking & Financial Services Fund - Direct Growth",
+            "category": "SECTORAL_BANKING",
+            "amc": "Nippon India AMC",
+            "units": 1200,
+            "avg_nav": 32.50,
+            "current_nav": 38.72,
+            "investment_value": 39000,
+            "current_value": 46464,
+            "gain_loss": 7464,
+            "gain_loss_percent": 19.14,
+            "day_change": -1068,
+            "day_change_percent": -2.25,
+            "weight_in_portfolio": 2.27,
+            "top_holdings": ["HDFCBANK", "ICICIBANK", "SBIN", "KOTAKBANK", "AXISBANK"]
+          },
+          {
+            "scheme_code": "MF006",
+            "scheme_name": "UTI Nifty 50 Index Fund - Direct Growth",
+            "category": "INDEX",
+            "amc": "UTI AMC",
+            "units": 500,
+            "avg_nav": 258.00,
+            "current_nav": 260.00,
+            "investment_value": 129000,
+            "current_value": 130000,
+            "gain_loss": 1000,
+            "gain_loss_percent": 0.78,
+            "day_change": -1300,
+            "day_change_percent": -1.00,
+            "weight_in_portfolio": 6.35,
+            "top_holdings": ["RELIANCE", "HDFCBANK", "ICICIBANK", "INFY", "TCS"]
+          }
+        ]
+      },
+      "analytics": {
+        "sector_allocation": {
+          "BANKING": 72.09,
+          "FINANCIAL_SERVICES": 19.49,
+          "DIVERSIFIED_MF": 8.62
+        },
+        "asset_type_allocation": {
+          "DIRECT_STOCKS": 91.38,
+          "MUTUAL_FUNDS": 8.62
+        },
+        "risk_metrics": {
+          "concentration_risk": true,
+          "concentration_warning": "CRITICAL: Banking + Financial Services exposure at 91.58%",
+          "single_stock_max_weight": 22.62,
+          "single_sector_max_weight": 72.09,
+          "beta": 1.28,
+          "volatility": "HIGH"
+        },
+        "day_summary": {
+          "day_change_absolute": -57390.50,
+          "day_change_percent": -2.73,
+          "top_gainer": null,
+          "top_loser": {
+            "symbol": "HDFCBANK",
+            "change_percent": -3.51
+          }
+        }
+      }
+    },
+    "PORTFOLIO_003": {
+      "user_id": "USR003",
+      "user_name": "Arun Krishnamurthy",
+      "portfolio_type": "CONSERVATIVE",
+      "risk_profile": "CONSERVATIVE",
+      "investment_horizon": "LONG_TERM",
+      "description": "Conservative mutual fund heavy portfolio with defensive stock picks",
+      "total_investment": 3500000,
+      "current_value": 4125680,
+      "overall_gain_loss": 625680,
+      "overall_gain_loss_percent": 17.88,
+      "holdings": {
+        "stocks": [
+          {
+            "symbol": "ITC",
+            "name": "ITC Ltd",
+            "sector": "FMCG",
+            "quantity": 500,
+            "avg_buy_price": 385.00,
+            "current_price": 428.65,
+            "investment_value": 192500,
+            "current_value": 214325,
+            "gain_loss": 21825,
+            "gain_loss_percent": 11.34,
+            "day_change": 925,
+            "day_change_percent": 0.43,
+            "weight_in_portfolio": 5.19
+          },
+          {
+            "symbol": "HINDUNILVR",
+            "name": "Hindustan Unilever",
+            "sector": "FMCG",
+            "quantity": 60,
+            "avg_buy_price": 2280.00,
+            "current_price": 2456.75,
+            "investment_value": 136800,
+            "current_value": 147405,
+            "gain_loss": 10605,
+            "gain_loss_percent": 7.75,
+            "day_change": 687,
+            "day_change_percent": 0.47,
+            "weight_in_portfolio": 3.57
+          },
+          {
+            "symbol": "NESTLEIND",
+            "name": "Nestle India Ltd",
+            "sector": "FMCG",
+            "quantity": 30,
+            "avg_buy_price": 2250.00,
+            "current_price": 2425.60,
+            "investment_value": 67500,
+            "current_value": 72768,
+            "gain_loss": 5268,
+            "gain_loss_percent": 7.80,
+            "day_change": 219,
+            "day_change_percent": 0.30,
+            "weight_in_portfolio": 1.76
+          },
+          {
+            "symbol": "POWERGRID",
+            "name": "Power Grid Corp",
+            "sector": "ENERGY",
+            "quantity": 400,
+            "avg_buy_price": 265.00,
+            "current_price": 298.45,
+            "investment_value": 106000,
+            "current_value": 119380,
+            "gain_loss": 13380,
+            "gain_loss_percent": 12.62,
+            "day_change": 660,
+            "day_change_percent": 0.56,
+            "weight_in_portfolio": 2.89
+          },
+          {
+            "symbol": "NTPC",
+            "name": "NTPC Ltd",
+            "sector": "ENERGY",
+            "quantity": 300,
+            "avg_buy_price": 345.00,
+            "current_price": 385.60,
+            "investment_value": 103500,
+            "current_value": 115680,
+            "gain_loss": 12180,
+            "gain_loss_percent": 11.77,
+            "day_change": 960,
+            "day_change_percent": 0.84,
+            "weight_in_portfolio": 2.80
+          },
+          {
+            "symbol": "TCS",
+            "name": "Tata Consultancy Services",
+            "sector": "INFORMATION_TECHNOLOGY",
+            "quantity": 25,
+            "avg_buy_price": 3720.00,
+            "current_price": 4125.80,
+            "investment_value": 93000,
+            "current_value": 103145,
+            "gain_loss": 10145,
+            "gain_loss_percent": 10.91,
+            "day_change": 1837.50,
+            "day_change_percent": 1.81,
+            "weight_in_portfolio": 2.50
+          },
+          {
+            "symbol": "ASIANPAINT",
+            "name": "Asian Paints Ltd",
+            "sector": "FMCG",
+            "quantity": 35,
+            "avg_buy_price": 2650.00,
+            "current_price": 2845.60,
+            "investment_value": 92750,
+            "current_value": 99596,
+            "gain_loss": 6846,
+            "gain_loss_percent": 7.38,
+            "day_change": 462,
+            "day_change_percent": 0.47,
+            "weight_in_portfolio": 2.41
+          }
+        ],
+        "mutual_funds": [
+          {
+            "scheme_code": "MF007",
+            "scheme_name": "HDFC Balanced Advantage Fund - Direct Growth",
+            "category": "BALANCED_ADVANTAGE",
+            "amc": "HDFC AMC",
+            "units": 8000,
+            "avg_nav": 125.00,
+            "current_nav": 148.50,
+            "investment_value": 1000000,
+            "current_value": 1188000,
+            "gain_loss": 188000,
+            "gain_loss_percent": 18.80,
+            "day_change": -4752,
+            "day_change_percent": -0.40,
+            "weight_in_portfolio": 28.79,
+            "top_holdings": ["HDFCBANK", "ICICIBANK", "RELIANCE", "INFY", "Government Bonds"]
+          },
+          {
+            "scheme_code": "MF008",
+            "scheme_name": "ICICI Prudential Corporate Bond Fund - Direct Growth",
+            "category": "CORPORATE_BOND",
+            "amc": "ICICI Prudential AMC",
+            "units": 25000,
+            "avg_nav": 28.50,
+            "current_nav": 30.25,
+            "investment_value": 712500,
+            "current_value": 756250,
+            "gain_loss": 43750,
+            "gain_loss_percent": 6.14,
+            "day_change": 378,
+            "day_change_percent": 0.05,
+            "weight_in_portfolio": 18.33,
+            "top_holdings": ["AAA Corporate Bonds", "PSU Bonds"]
+          },
+          {
+            "scheme_code": "MF009",
+            "scheme_name": "SBI Magnum Gilt Fund - Direct Growth",
+            "category": "GILT",
+            "amc": "SBI AMC",
+            "units": 12000,
+            "avg_nav": 52.00,
+            "current_nav": 54.80,
+            "investment_value": 624000,
+            "current_value": 657600,
+            "gain_loss": 33600,
+            "gain_loss_percent": 5.38,
+            "day_change": -329,
+            "day_change_percent": -0.05,
+            "weight_in_portfolio": 15.94,
+            "top_holdings": ["Government Securities", "Treasury Bills"]
+          },
+          {
+            "scheme_code": "MF010",
+            "scheme_name": "Parag Parikh Flexi Cap Fund - Direct Growth",
+            "category": "FLEXI_CAP",
+            "amc": "PPFAS AMC",
+            "units": 6000,
+            "avg_nav": 58.50,
+            "current_nav": 69.25,
+            "investment_value": 351000,
+            "current_value": 415500,
+            "gain_loss": 64500,
+            "gain_loss_percent": 18.38,
+            "day_change": -2078,
+            "day_change_percent": -0.50,
+            "weight_in_portfolio": 10.07,
+            "top_holdings": ["HDFCBANK", "Google", "Microsoft", "Amazon", "ITC"]
+          },
+          {
+            "scheme_code": "MF011",
+            "scheme_name": "Kotak Equity Arbitrage Fund - Direct Growth",
+            "category": "ARBITRAGE",
+            "amc": "Kotak AMC",
+            "units": 8000,
+            "avg_nav": 32.00,
+            "current_nav": 33.15,
+            "investment_value": 256000,
+            "current_value": 265200,
+            "gain_loss": 9200,
+            "gain_loss_percent": 3.59,
+            "day_change": 53,
+            "day_change_percent": 0.02,
+            "weight_in_portfolio": 6.43,
+            "top_holdings": ["Equity Arbitrage Positions"]
+          },
+          {
+            "scheme_code": "MF012",
+            "scheme_name": "UTI Nifty 50 Index Fund - Direct Growth",
+            "category": "INDEX",
+            "amc": "UTI AMC",
+            "units": 300,
+            "avg_nav": 245.00,
+            "current_nav": 260.00,
+            "investment_value": 73500,
+            "current_value": 78000,
+            "gain_loss": 4500,
+            "gain_loss_percent": 6.12,
+            "day_change": -780,
+            "day_change_percent": -1.00,
+            "weight_in_portfolio": 1.89,
+            "top_holdings": ["RELIANCE", "HDFCBANK", "ICICIBANK", "INFY", "TCS"]
+          }
+        ]
+      },
+      "analytics": {
+        "sector_allocation": {
+          "FMCG": 12.93,
+          "ENERGY": 5.69,
+          "INFORMATION_TECHNOLOGY": 2.50,
+          "DEBT_FUNDS": 34.27,
+          "DIVERSIFIED_MF": 46.18
+        },
+        "asset_type_allocation": {
+          "DIRECT_STOCKS": 21.13,
+          "EQUITY_MUTUAL_FUNDS": 40.75,
+          "DEBT_MUTUAL_FUNDS": 34.27,
+          "HYBRID_FUNDS": 3.85
+        },
+        "risk_metrics": {
+          "concentration_risk": false,
+          "single_stock_max_weight": 5.19,
+          "single_sector_max_weight": 12.93,
+          "beta": 0.55,
+          "volatility": "LOW"
+        },
+        "day_summary": {
+          "day_change_absolute": -1758.50,
+          "day_change_percent": -0.04,
+          "top_gainer": {
+            "symbol": "TCS",
+            "change_percent": 1.81
+          },
+          "top_loser": {
+            "symbol": "MF010",
+            "name": "Parag Parikh Flexi Cap Fund",
+            "change_percent": -0.50
+          }
+        }
+      }
+    }
+  }
+}

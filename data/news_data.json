@@ -1,0 +1,565 @@
+{
+  "metadata": {
+    "date": "2026-04-21",
+    "data_source": "Mock Financial News Feed",
+    "total_articles": 25
+  },
+  "news": [
+    {
+      "id": "NEWS001",
+      "headline": "RBI Holds Repo Rate Steady at 6.5%, Signals Hawkish Stance Amid Inflation Concerns",
+      "summary": "The Reserve Bank of India maintained its benchmark repo rate at 6.5% for the sixth consecutive meeting, citing persistent inflation concerns. The MPC highlighted that food inflation remains elevated and warned of potential rate hikes if inflation does not moderate. The central bank also revised its GDP growth forecast downward by 20 basis points.",
+      "published_at": "2026-04-21T09:30:00+05:30",
+      "source": "Economic Times",
+      "sentiment": "NEGATIVE",
+      "sentiment_score": -0.72,
+      "scope": "MARKET_WIDE",
+      "impact_level": "HIGH",
+      "entities": {
+        "sectors": ["BANKING", "FINANCIAL_SERVICES", "REALTY"],
+        "stocks": [],
+        "indices": ["NIFTY50", "SENSEX", "BANKNIFTY"],
+        "keywords": ["RBI", "repo rate", "inflation", "MPC", "interest rate"]
+      },
+      "causal_factors": [
+        "Higher interest rates increase borrowing costs for banks",
+        "Realty sector sensitive to rate changes due to home loan impact",
+        "Financial services margins may compress"
+      ]
+    },
+    {
+      "id": "NEWS002",
+      "headline": "US Tech Giants Report Strong Q1 Earnings, Indian IT Stocks Rally",
+      "summary": "Major US technology companies including Microsoft, Google, and Amazon reported better-than-expected Q1 2026 earnings, driven by robust cloud computing and AI services demand. Indian IT stocks surged in response, with analysts expecting improved deal pipelines for TCS, Infosys, and other IT majors. The weak rupee is also expected to boost export revenues.",
+      "published_at": "2026-04-21T10:15:00+05:30",
+      "source": "Mint",
+      "sentiment": "POSITIVE",
+      "sentiment_score": 0.85,
+      "scope": "SECTOR_SPECIFIC",
+      "impact_level": "HIGH",
+      "entities": {
+        "sectors": ["INFORMATION_TECHNOLOGY"],
+        "stocks": ["TCS", "INFY", "WIPRO", "HCLTECH", "TECHM"],
+        "indices": ["NIFTYIT"],
+        "keywords": ["US tech earnings", "cloud computing", "AI", "IT exports", "rupee"]
+      },
+      "causal_factors": [
+        "Strong US tech spending benefits Indian IT outsourcing",
+        "Weak rupee enhances export revenue in INR terms",
+        "AI/ML demand creating new revenue streams"
+      ]
+    },
+    {
+      "id": "NEWS003",
+      "headline": "HDFC Bank Reports Mixed Q4 Results, Deposit Growth Concerns Weigh on Stock",
+      "summary": "HDFC Bank reported Q4 FY26 net profit of ₹16,512 crore, up 18% YoY, meeting street estimates. However, deposit growth of 12% lagged loan growth of 16%, raising concerns about the bank's funding costs. Management guided for moderated growth in FY27 as the bank focuses on liability franchise. The stock fell sharply in early trade.",
+      "published_at": "2026-04-21T08:45:00+05:30",
+      "source": "Business Standard",
+      "sentiment": "NEGATIVE",
+      "sentiment_score": -0.45,
+      "scope": "STOCK_SPECIFIC",
+      "impact_level": "HIGH",
+      "entities": {
+        "sectors": ["BANKING"],
+        "stocks": ["HDFCBANK"],
+        "indices": ["BANKNIFTY"],
+        "keywords": ["HDFC Bank", "Q4 results", "deposit growth", "loan growth", "NIM"]
+      },
+      "causal_factors": [
+        "Deposit-loan growth mismatch signals funding pressure",
+        "Post-merger integration still ongoing",
+        "Market expectations were higher"
+      ]
+    },
+    {
+      "id": "NEWS004",
+      "headline": "Sun Pharma Receives USFDA Approval for Generic Cancer Drug",
+      "summary": "Sun Pharmaceutical Industries received USFDA approval for its generic version of a blockbuster cancer treatment drug with US market size of $2.8 billion. The company expects to launch the product within 60 days and capture significant market share. Analysts have upgraded their price targets for the stock following this development.",
+      "published_at": "2026-04-21T11:00:00+05:30",
+      "source": "Reuters",
+      "sentiment": "POSITIVE",
+      "sentiment_score": 0.92,
+      "scope": "STOCK_SPECIFIC",
+      "impact_level": "HIGH",
+      "entities": {
+        "sectors": ["PHARMACEUTICALS"],
+        "stocks": ["SUNPHARMA"],
+        "indices": ["NIFTYPHARMA"],
+        "keywords": ["USFDA approval", "generic drug", "cancer treatment", "market share"]
+      },
+      "causal_factors": [
+        "New drug approval adds significant revenue potential",
+        "First-to-file advantage in generic market",
+        "Strong pipeline execution"
+      ]
+    },
+    {
+      "id": "NEWS005",
+      "headline": "China Steel Demand Slows Further, Indian Metal Stocks Under Pressure",
+      "summary": "China's steel demand continued to weaken in April as the property sector crisis deepened and infrastructure spending slowed. Global iron ore prices fell 4% overnight, putting pressure on Indian steel makers. Tata Steel and JSW Steel are expected to see margin compression in Q1 FY27 amid softer realizations and elevated coking coal costs.",
+      "published_at": "2026-04-21T07:30:00+05:30",
+      "source": "Bloomberg",
+      "sentiment": "NEGATIVE",
+      "sentiment_score": -0.68,
+      "scope": "SECTOR_SPECIFIC",
+      "impact_level": "MEDIUM",
+      "entities": {
+        "sectors": ["METALS"],
+        "stocks": ["TATASTEEL", "JSWSTEEL", "HINDALCO"],
+        "indices": [],
+        "keywords": ["China", "steel demand", "iron ore", "commodity prices", "margins"]
+      },
+      "causal_factors": [
+        "China property crisis reducing steel demand",
+        "Global commodity prices impacting realizations",
+        "Cost pressures from coking coal"
+      ]
+    },
+    {
+      "id": "NEWS006",
+      "headline": "Maruti Suzuki Faces Production Challenges Due to Semiconductor Shortage",
+      "summary": "Maruti Suzuki India reported that semiconductor shortages are expected to impact April production by approximately 8,000 units. The company's popular models including Swift and Baleno face longer waiting periods. Additionally, rising steel and aluminum costs are expected to pressure margins in Q1, with potential price hikes being evaluated.",
+      "published_at": "2026-04-21T09:00:00+05:30",
+      "source": "Autocar India",
+      "sentiment": "NEGATIVE",
+      "sentiment_score": -0.55,
+      "scope": "STOCK_SPECIFIC",
+      "impact_level": "MEDIUM",
+      "entities": {
+        "sectors": ["AUTOMOBILE"],
+        "stocks": ["MARUTI"],
+        "indices": [],
+        "keywords": ["semiconductor", "production", "supply chain", "input costs", "price hike"]
+      },
+      "causal_factors": [
+        "Supply chain disruptions limiting production",
+        "Input cost inflation pressuring margins",
+        "Demand remains strong but unfulfilled"
+      ]
+    },
+    {
+      "id": "NEWS007",
+      "headline": "FIIs Continue Selling Spree, Pull Out ₹4,500 Crore from Indian Equities",
+      "summary": "Foreign Institutional Investors (FIIs) sold Indian equities worth ₹4,500 crore in the last trading session, extending their selling streak to 12 consecutive days. The total FII outflow in April now stands at ₹32,000 crore. Rising US bond yields and a stronger dollar are making emerging markets less attractive to foreign investors.",
+      "published_at": "2026-04-21T07:00:00+05:30",
+      "source": "CNBC TV18",
+      "sentiment": "NEGATIVE",
+      "sentiment_score": -0.62,
+      "scope": "MARKET_WIDE",
+      "impact_level": "HIGH",
+      "entities": {
+        "sectors": [],
+        "stocks": [],
+        "indices": ["NIFTY50", "SENSEX"],
+        "keywords": ["FII", "foreign outflow", "US bond yields", "dollar", "emerging markets"]
+      },
+      "causal_factors": [
+        "Rising US yields attracting capital away from EMs",
+        "Dollar strength making rupee assets less attractive",
+        "Risk-off sentiment globally"
+      ]
+    },
+    {
+      "id": "NEWS008",
+      "headline": "Infosys Wins $1.5 Billion Deal with Major European Bank",
+      "summary": "Infosys announced a landmark $1.5 billion multi-year deal with a leading European bank for digital transformation services. The deal, one of the largest in the company's history, will boost revenue visibility for the next 5 years. The contract includes cloud migration, AI implementation, and core banking modernization components.",
+      "published_at": "2026-04-21T11:30:00+05:30",
+      "source": "Economic Times",
+      "sentiment": "POSITIVE",
+      "sentiment_score": 0.88,
+      "scope": "STOCK_SPECIFIC",
+      "impact_level": "HIGH",
+      "entities": {
+        "sectors": ["INFORMATION_TECHNOLOGY"],
+        "stocks": ["INFY"],
+        "indices": ["NIFTYIT"],
+        "keywords": ["Infosys", "mega deal", "digital transformation", "European bank", "cloud"]
+      },
+      "causal_factors": [
+        "Large deal win improves revenue visibility",
+        "Validates Infosys' digital capabilities",
+        "European BFSI segment showing resilience"
+      ]
+    },
+    {
+      "id": "NEWS009",
+      "headline": "Reliance Retail Posts Strong Q4, Jio Subscriber Growth Moderates",
+      "summary": "Reliance Industries' retail arm posted robust Q4 results with revenue growth of 18% YoY, driven by store expansion and festive season demand. However, Jio Platforms reported slower subscriber additions of 8 million vs. 12 million expected, raising concerns about ARPU growth trajectory. O2C segment performance was in line with expectations.",
+      "published_at": "2026-04-21T08:00:00+05:30",
+      "source": "Mint",
+      "sentiment": "NEUTRAL",
+      "sentiment_score": 0.15,
+      "scope": "STOCK_SPECIFIC",
+      "impact_level": "MEDIUM",
+      "entities": {
+        "sectors": ["ENERGY"],
+        "stocks": ["RELIANCE"],
+        "indices": ["NIFTY50"],
+        "keywords": ["Reliance", "Q4 results", "retail", "Jio", "subscriber growth"]
+      },
+      "causal_factors": [
+        "Retail segment strong but Jio concerns offset gains",
+        "Mixed signal creating uncertainty",
+        "Valuation premium being questioned"
+      ]
+    },
+    {
+      "id": "NEWS010",
+      "headline": "Housing Sales Hit 10-Year High in Q1, But Rising Rates Pose Headwind",
+      "summary": "Housing sales across top 7 Indian cities reached a 10-year high in Q1 2026, with Hyderabad and Pune leading the growth. However, industry experts warn that rising home loan rates following RBI's hawkish stance could moderate demand in coming quarters. Realty stocks fell despite the positive sales data amid rate concerns.",
+      "published_at": "2026-04-21T10:00:00+05:30",
+      "source": "Business Standard",
+      "sentiment": "MIXED",
+      "sentiment_score": -0.25,
+      "scope": "SECTOR_SPECIFIC",
+      "impact_level": "MEDIUM",
+      "entities": {
+        "sectors": ["REALTY", "BANKING"],
+        "stocks": ["DLF", "GODREJPROP"],
+        "indices": [],
+        "keywords": ["housing sales", "real estate", "home loans", "interest rates"]
+      },
+      "causal_factors": [
+        "Strong sales offset by rate hike fears",
+        "Forward-looking concerns dominating positive current data",
+        "Rate sensitivity of realty sector"
+      ]
+    },
+    {
+      "id": "NEWS011",
+      "headline": "Bajaj Finance Asset Quality Stable, Management Guides for Strong Growth",
+      "summary": "Bajaj Finance reported stable asset quality metrics with GNPA at 0.95% in Q4 FY26. Management guided for AUM growth of 26-28% for FY27, citing strong demand in consumer and SME lending segments. However, the stock declined as broader NBFC sector sentiment remained weak due to RBI rate stance.",
+      "published_at": "2026-04-21T09:15:00+05:30",
+      "source": "Moneycontrol",
+      "sentiment": "POSITIVE",
+      "sentiment_score": 0.58,
+      "scope": "STOCK_SPECIFIC",
+      "impact_level": "MEDIUM",
+      "entities": {
+        "sectors": ["FINANCIAL_SERVICES"],
+        "stocks": ["BAJFINANCE"],
+        "indices": [],
+        "keywords": ["Bajaj Finance", "asset quality", "GNPA", "AUM growth", "NBFC"]
+      },
+      "causal_factors": [
+        "Company-specific positives overshadowed by sector headwinds",
+        "Rate sensitivity impacting NBFC valuations",
+        "Strong fundamentals not reflected in price"
+      ],
+      "conflict_flag": true,
+      "conflict_explanation": "Positive company news but stock falling due to sector-wide rate concerns"
+    },
+    {
+      "id": "NEWS012",
+      "headline": "Dr. Reddy's Launches Biosimilar in European Markets",
+      "summary": "Dr. Reddy's Laboratories announced the commercial launch of its biosimilar product in key European markets including Germany, France, and UK. The company expects this launch to contribute ₹800-1000 crore in annual revenue by FY28. This marks Dr. Reddy's entry into the high-margin biosimilars segment in developed markets.",
+      "published_at": "2026-04-21T10:30:00+05:30",
+      "source": "Pharmabiz",
+      "sentiment": "POSITIVE",
+      "sentiment_score": 0.75,
+      "scope": "STOCK_SPECIFIC",
+      "impact_level": "MEDIUM",
+      "entities": {
+        "sectors": ["PHARMACEUTICALS"],
+        "stocks": ["DRREDDY"],
+        "indices": ["NIFTYPHARMA"],
+        "keywords": ["biosimilar", "European market", "launch", "revenue"]
+      },
+      "causal_factors": [
+        "New market entry diversifies revenue",
+        "Biosimilars offer higher margins",
+        "European healthcare markets are stable"
+      ]
+    },
+    {
+      "id": "NEWS013",
+      "headline": "Government Announces ₹2 Lakh Crore Capex Push for Infrastructure",
+      "summary": "The Finance Ministry announced acceleration of capital expenditure with ₹2 lakh crore to be spent on infrastructure projects in Q1 FY27. Key beneficiaries include roads, railways, and urban development projects. L&T and other infrastructure companies are expected to see order inflows pick up significantly.",
+      "published_at": "2026-04-21T11:45:00+05:30",
+      "source": "PIB",
+      "sentiment": "POSITIVE",
+      "sentiment_score": 0.72,
+      "scope": "SECTOR_SPECIFIC",
+      "impact_level": "MEDIUM",
+      "entities": {
+        "sectors": ["INFRASTRUCTURE"],
+        "stocks": ["LT", "LTIM"],
+        "indices": [],
+        "keywords": ["capex", "infrastructure", "government spending", "orders"]
+      },
+      "causal_factors": [
+        "Government capex drives order book growth",
+        "Pre-election spending typically accelerates",
+        "Execution visibility improves"
+      ]
+    },
+    {
+      "id": "NEWS014",
+      "headline": "Tata Motors EV Sales Jump 85% YoY, Market Share at Record High",
+      "summary": "Tata Motors reported electric vehicle sales of 18,500 units in April, up 85% year-over-year. The company's EV market share reached a record 72% in the passenger vehicle segment. New model launches and expanded charging infrastructure are driving adoption. Despite sector headwinds, Tata Motors' EV leadership provides positive divergence.",
+      "published_at": "2026-04-21T08:30:00+05:30",
+      "source": "Autocar India",
+      "sentiment": "POSITIVE",
+      "sentiment_score": 0.82,
+      "scope": "STOCK_SPECIFIC",
+      "impact_level": "MEDIUM",
+      "entities": {
+        "sectors": ["AUTOMOBILE"],
+        "stocks": ["TATAMOTORS"],
+        "indices": [],
+        "keywords": ["electric vehicles", "EV sales", "market share", "Tata Motors"]
+      },
+      "causal_factors": [
+        "EV leadership differentiates from ICE-focused peers",
+        "Growing EV adoption in India",
+        "First-mover advantage paying off"
+      ]
+    },
+    {
+      "id": "NEWS015",
+      "headline": "ICICI Bank Asset Quality Improves, But Margins Under Pressure",
+      "summary": "ICICI Bank reported Q4 FY26 results with net NPA declining to 0.42% from 0.48% QoQ. However, net interest margins compressed by 8 bps to 4.32% due to higher deposit costs. The bank maintained its loan growth guidance of 14-16% for FY27 despite the challenging rate environment.",
+      "published_at": "2026-04-21T07:45:00+05:30",
+      "source": "Economic Times",
+      "sentiment": "MIXED",
+      "sentiment_score": 0.10,
+      "scope": "STOCK_SPECIFIC",
+      "impact_level": "MEDIUM",
+      "entities": {
+        "sectors": ["BANKING"],
+        "stocks": ["ICICIBANK"],
+        "indices": ["BANKNIFTY"],
+        "keywords": ["ICICI Bank", "NPA", "margins", "loan growth"]
+      },
+      "causal_factors": [
+        "Improved asset quality positive",
+        "Margin pressure negative",
+        "Mixed signals creating uncertainty"
+      ]
+    },
+    {
+      "id": "NEWS016",
+      "headline": "Crude Oil Prices Fall 5% as OPEC+ Signals Production Increase",
+      "summary": "Brent crude oil prices fell 5% to $72 per barrel after OPEC+ signaled potential production increases starting June. This development is positive for oil importing countries like India, potentially reducing the current account deficit. Oil marketing companies may see improved refining margins.",
+      "published_at": "2026-04-21T06:30:00+05:30",
+      "source": "Reuters",
+      "sentiment": "POSITIVE",
+      "sentiment_score": 0.65,
+      "scope": "MARKET_WIDE",
+      "impact_level": "MEDIUM",
+      "entities": {
+        "sectors": ["ENERGY"],
+        "stocks": ["RELIANCE", "BPCL", "ONGC"],
+        "indices": [],
+        "keywords": ["crude oil", "OPEC+", "oil prices", "refining margins"]
+      },
+      "causal_factors": [
+        "Lower oil prices benefit Indian macro",
+        "Refining margins may improve",
+        "Upstream companies (ONGC) may see lower realizations"
+      ],
+      "conflict_flag": true,
+      "conflict_explanation": "Positive for refiners (BPCL, RELIANCE) but negative for upstream (ONGC)"
+    },
+    {
+      "id": "NEWS017",
+      "headline": "SBI Announces Aggressive Deposit Rate Hikes to Boost Growth",
+      "summary": "State Bank of India announced deposit rate increases of up to 50 bps across various tenures to attract retail deposits amid intense competition. While this move will support deposit growth, analysts expect NIM compression in the near term. The bank's deposit market share has been under pressure from private banks.",
+      "published_at": "2026-04-21T09:45:00+05:30",
+      "source": "Business Standard",
+      "sentiment": "MIXED",
+      "sentiment_score": -0.20,
+      "scope": "STOCK_SPECIFIC",
+      "impact_level": "MEDIUM",
+      "entities": {
+        "sectors": ["BANKING"],
+        "stocks": ["SBIN"],
+        "indices": ["BANKNIFTY"],
+        "keywords": ["SBI", "deposit rates", "NIM", "competition"]
+      },
+      "causal_factors": [
+        "Deposit mobilization priority over margins",
+        "Competitive intensity in banking",
+        "Short-term pain for long-term deposit growth"
+      ]
+    },
+    {
+      "id": "NEWS018",
+      "headline": "Wipro Announces Buyback Worth ₹12,000 Crore at Premium",
+      "summary": "Wipro announced a share buyback program worth ₹12,000 crore at ₹510 per share, a 5% premium to current market price. The buyback will be executed through the tender offer route. This marks the company's sixth consecutive annual buyback and signals management confidence in the stock's undervaluation.",
+      "published_at": "2026-04-21T12:00:00+05:30",
+      "source": "Moneycontrol",
+      "sentiment": "POSITIVE",
+      "sentiment_score": 0.70,
+      "scope": "STOCK_SPECIFIC",
+      "impact_level": "MEDIUM",
+      "entities": {
+        "sectors": ["INFORMATION_TECHNOLOGY"],
+        "stocks": ["WIPRO"],
+        "indices": ["NIFTYIT"],
+        "keywords": ["buyback", "Wipro", "tender offer", "shareholder return"]
+      },
+      "causal_factors": [
+        "Buyback provides price support",
+        "Management expressing confidence",
+        "Strong cash generation capability"
+      ]
+    },
+    {
+      "id": "NEWS019",
+      "headline": "Cipla Faces Pricing Pressure in US Generic Market",
+      "summary": "Cipla's US business is facing intensified pricing pressure as competition increases in key therapeutic segments. Management indicated that US revenues may remain flat in FY27 before recovering in FY28. The company is focusing on complex generics and respiratory portfolio to offset base erosion.",
+      "published_at": "2026-04-21T10:45:00+05:30",
+      "source": "Pharmabiz",
+      "sentiment": "NEGATIVE",
+      "sentiment_score": -0.48,
+      "scope": "STOCK_SPECIFIC",
+      "impact_level": "MEDIUM",
+      "entities": {
+        "sectors": ["PHARMACEUTICALS"],
+        "stocks": ["CIPLA"],
+        "indices": ["NIFTYPHARMA"],
+        "keywords": ["Cipla", "US generics", "pricing pressure", "competition"]
+      },
+      "causal_factors": [
+        "US generic market consolidation hurting pricing",
+        "Base business erosion concern",
+        "Delayed recovery expectations"
+      ]
+    },
+    {
+      "id": "NEWS020",
+      "headline": "HUL Reports Flat Volume Growth, Rural Recovery Slower Than Expected",
+      "summary": "Hindustan Unilever reported flat volume growth in Q4 FY26, missing street estimates of 2% growth. Rural recovery, while progressing, is slower than anticipated. Management maintained cautious outlook for H1 FY27 but expects acceleration in H2 as monsoon and rural demand normalize.",
+      "published_at": "2026-04-21T08:15:00+05:30",
+      "source": "Economic Times",
+      "sentiment": "NEGATIVE",
+      "sentiment_score": -0.35,
+      "scope": "STOCK_SPECIFIC",
+      "impact_level": "MEDIUM",
+      "entities": {
+        "sectors": ["FMCG"],
+        "stocks": ["HINDUNILVR"],
+        "indices": [],
+        "keywords": ["HUL", "volume growth", "rural demand", "FMCG"]
+      },
+      "causal_factors": [
+        "Rural slowdown impacting staples demand",
+        "Urban demand holding but not accelerating",
+        "Expectations were higher"
+      ],
+      "conflict_flag": true,
+      "conflict_explanation": "Stock slightly up despite negative news - defensive buying amid market selloff"
+    },
+    {
+      "id": "NEWS021",
+      "headline": "Axis Bank Completes Digital Transformation, Targets Tech-First Growth",
+      "summary": "Axis Bank announced completion of its multi-year digital transformation program, claiming 85% of transactions now happen through digital channels. The bank targets 20% cost savings over 3 years and improved customer acquisition through its revamped mobile app. However, execution remains key.",
+      "published_at": "2026-04-21T11:15:00+05:30",
+      "source": "Business Standard",
+      "sentiment": "POSITIVE",
+      "sentiment_score": 0.55,
+      "scope": "STOCK_SPECIFIC",
+      "impact_level": "LOW",
+      "entities": {
+        "sectors": ["BANKING"],
+        "stocks": ["AXISBANK"],
+        "indices": ["BANKNIFTY"],
+        "keywords": ["Axis Bank", "digital transformation", "technology", "cost savings"]
+      },
+      "causal_factors": [
+        "Long-term positive but near-term rate concerns dominate",
+        "Digital investments to show benefits gradually",
+        "Market ignoring positives in current environment"
+      ]
+    },
+    {
+      "id": "NEWS022",
+      "headline": "Global Risk-Off: Asian Markets Fall Amid US Recession Fears",
+      "summary": "Asian markets witnessed broad-based selling as fears of a US recession intensified following weak consumer spending data. Japan's Nikkei fell 2.5% while Hong Kong's Hang Seng declined 1.8%. Indian markets are expected to follow the global trend with high-beta stocks likely to see sharper corrections.",
+      "published_at": "2026-04-21T06:00:00+05:30",
+      "source": "Bloomberg",
+      "sentiment": "NEGATIVE",
+      "sentiment_score": -0.75,
+      "scope": "MARKET_WIDE",
+      "impact_level": "HIGH",
+      "entities": {
+        "sectors": [],
+        "stocks": [],
+        "indices": ["NIFTY50", "SENSEX"],
+        "keywords": ["global markets", "risk-off", "recession", "FII selling", "Asian markets"]
+      },
+      "causal_factors": [
+        "Global risk sentiment drives flows",
+        "High-beta emerging markets see amplified selling",
+        "Correlation with US markets increasing"
+      ]
+    },
+    {
+      "id": "NEWS023",
+      "headline": "ITC Hotels Demerger Gets Shareholder Approval",
+      "summary": "ITC shareholders approved the demerger of the hotels business in an EGM. The demerged hotels entity will be listed separately, allowing focused capital allocation. Analysts expect the demerger to unlock value for shareholders with combined entity valuations potentially higher than current levels.",
+      "published_at": "2026-04-21T12:30:00+05:30",
+      "source": "Mint",
+      "sentiment": "POSITIVE",
+      "sentiment_score": 0.68,
+      "scope": "STOCK_SPECIFIC",
+      "impact_level": "MEDIUM",
+      "entities": {
+        "sectors": ["FMCG"],
+        "stocks": ["ITC"],
+        "indices": [],
+        "keywords": ["ITC", "demerger", "hotels", "value unlocking"]
+      },
+      "causal_factors": [
+        "Value unlocking through business separation",
+        "Better capital allocation for each entity",
+        "Market recognizing conglomerate discount"
+      ]
+    },
+    {
+      "id": "NEWS024",
+      "headline": "Power Grid Corporation Wins ₹8,500 Crore Transmission Project",
+      "summary": "Power Grid Corporation of India won a major inter-state transmission project worth ₹8,500 crore through competitive bidding. The project involves setting up high-capacity transmission lines connecting renewable energy zones to consumption centers. This win strengthens the company's order book visibility for the next 3-4 years.",
+      "published_at": "2026-04-21T10:15:00+05:30",
+      "source": "PIB",
+      "sentiment": "POSITIVE",
+      "sentiment_score": 0.72,
+      "scope": "STOCK_SPECIFIC",
+      "impact_level": "MEDIUM",
+      "entities": {
+        "sectors": ["ENERGY"],
+        "stocks": ["POWERGRID"],
+        "indices": [],
+        "keywords": ["Power Grid", "transmission", "renewable energy", "order book"]
+      },
+      "causal_factors": [
+        "Strong order wins improve revenue visibility",
+        "Renewable energy transition driving capex",
+        "Stable regulated returns business model"
+      ]
+    },
+    {
+      "id": "NEWS025",
+      "headline": "Kotak Bank MD Faces RBI Scrutiny Over Governance Issues",
+      "summary": "Reports suggest that RBI has raised concerns over certain governance practices at Kotak Mahindra Bank during its latest inspection. While details remain unclear, the development has created uncertainty around the bank's leadership transition plans. The bank declined to comment on the matter.",
+      "published_at": "2026-04-21T07:15:00+05:30",
+      "source": "Business Standard",
+      "sentiment": "NEGATIVE",
+      "sentiment_score": -0.58,
+      "scope": "STOCK_SPECIFIC",
+      "impact_level": "MEDIUM",
+      "entities": {
+        "sectors": ["BANKING"],
+        "stocks": ["KOTAKBANK"],
+        "indices": ["BANKNIFTY"],
+        "keywords": ["Kotak Bank", "RBI", "governance", "leadership", "scrutiny"]
+      },
+      "causal_factors": [
+        "Regulatory uncertainty creates overhang",
+        "Leadership concerns affect sentiment",
+        "Governance issues can impact valuations"
+      ]
+    }
+  ]
+}

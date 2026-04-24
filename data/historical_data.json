@@ -1,0 +1,256 @@
+{
+  "metadata": {
+    "description": "Historical market data for trend analysis",
+    "period": "Last 7 trading days",
+    "end_date": "2026-04-21"
+  },
+  "index_history": {
+    "NIFTY50": {
+      "data": [
+        {"date": "2026-04-11", "close": 25120.45, "change_percent": 0.85},
+        {"date": "2026-04-14", "close": 25045.30, "change_percent": -0.30},
+        {"date": "2026-04-15", "close": 24985.60, "change_percent": -0.24},
+        {"date": "2026-04-16", "close": 24890.25, "change_percent": -0.38},
+        {"date": "2026-04-17", "close": 24820.80, "change_percent": -0.28},
+        {"date": "2026-04-18", "close": 24780.50, "change_percent": -0.16},
+        {"date": "2026-04-21", "close": 24532.15, "change_percent": -1.00}
+      ],
+      "trend": "DOWNTREND",
+      "trend_duration_days": 7,
+      "cumulative_change_percent": -2.34,
+      "support_level": 24200,
+      "resistance_level": 25200
+    },
+    "SENSEX": {
+      "data": [
+        {"date": "2026-04-11", "close": 82650.80, "change_percent": 0.78},
+        {"date": "2026-04-14", "close": 82420.45, "change_percent": -0.28},
+        {"date": "2026-04-15", "close": 82185.30, "change_percent": -0.29},
+        {"date": "2026-04-16", "close": 81920.60, "change_percent": -0.32},
+        {"date": "2026-04-17", "close": 81720.25, "change_percent": -0.24},
+        {"date": "2026-04-18", "close": 81650.75, "change_percent": -0.08},
+        {"date": "2026-04-21", "close": 80845.30, "change_percent": -0.99}
+      ],
+      "trend": "DOWNTREND",
+      "trend_duration_days": 7,
+      "cumulative_change_percent": -2.18,
+      "support_level": 79500,
+      "resistance_level": 83000
+    },
+    "BANKNIFTY": {
+      "data": [
+        {"date": "2026-04-11", "close": 53450.20, "change_percent": 0.95},
+        {"date": "2026-04-14", "close": 53280.45, "change_percent": -0.32},
+        {"date": "2026-04-15", "close": 52980.30, "change_percent": -0.56},
+        {"date": "2026-04-16", "close": 52720.60, "change_percent": -0.49},
+        {"date": "2026-04-17", "close": 52550.25, "change_percent": -0.32},
+        {"date": "2026-04-18", "close": 52450.80, "change_percent": -0.19},
+        {"date": "2026-04-21", "close": 51230.45, "change_percent": -2.33}
+      ],
+      "trend": "STRONG_DOWNTREND",
+      "trend_duration_days": 7,
+      "cumulative_change_percent": -4.15,
+      "support_level": 50500,
+      "resistance_level": 53500
+    },
+    "NIFTYIT": {
+      "data": [
+        {"date": "2026-04-11", "close": 37850.30, "change_percent": 1.25},
+        {"date": "2026-04-14", "close": 37920.45, "change_percent": 0.19},
+        {"date": "2026-04-15", "close": 38150.80, "change_percent": 0.61},
+        {"date": "2026-04-16", "close": 38280.25, "change_percent": 0.34},
+        {"date": "2026-04-17", "close": 38350.60, "change_percent": 0.18},
+        {"date": "2026-04-18", "close": 38450.25, "change_percent": 0.26},
+        {"date": "2026-04-21", "close": 38920.60, "change_percent": 1.22}
+      ],
+      "trend": "UPTREND",
+      "trend_duration_days": 7,
+      "cumulative_change_percent": 2.83,
+      "support_level": 37500,
+      "resistance_level": 40000
+    }
+  },
+  "stock_history": {
+    "HDFCBANK": {
+      "data": [
+        {"date": "2026-04-11", "close": 1625.80, "volume": 12500000},
+        {"date": "2026-04-14", "close": 1618.45, "volume": 11800000},
+        {"date": "2026-04-15", "close": 1612.30, "volume": 12200000},
+        {"date": "2026-04-16", "close": 1605.60, "volume": 13500000},
+        {"date": "2026-04-17", "close": 1600.25, "volume": 14200000},
+        {"date": "2026-04-18", "close": 1598.45, "volume": 13800000},
+        {"date": "2026-04-21", "close": 1542.30, "volume": 15234500}
+      ],
+      "trend": "DOWNTREND",
+      "avg_volume_7d": 13319214,
+      "volatility": "HIGH"
+    },
+    "TCS": {
+      "data": [
+        {"date": "2026-04-11", "close": 3985.20, "volume": 2650000},
+        {"date": "2026-04-14", "close": 4015.45, "volume": 2780000},
+        {"date": "2026-04-15", "close": 4028.30, "volume": 2550000},
+        {"date": "2026-04-16", "close": 4045.60, "volume": 2680000},
+        {"date": "2026-04-17", "close": 4055.25, "volume": 2720000},
+        {"date": "2026-04-18", "close": 4052.30, "volume": 2850000},
+        {"date": "2026-04-21", "close": 4125.80, "volume": 3456700}
+      ],
+      "trend": "UPTREND",
+      "avg_volume_7d": 2955814,
+      "volatility": "MODERATE"
+    },
+    "INFY": {
+      "data": [
+        {"date": "2026-04-11", "close": 1612.30, "volume": 6850000},
+        {"date": "2026-04-14", "close": 1625.45, "volume": 7120000},
+        {"date": "2026-04-15", "close": 1632.80, "volume": 6950000},
+        {"date": "2026-04-16", "close": 1640.25, "volume": 7250000},
+        {"date": "2026-04-17", "close": 1645.60, "volume": 7450000},
+        {"date": "2026-04-18", "close": 1645.80, "volume": 7380000},
+        {"date": "2026-04-21", "close": 1678.25, "volume": 8765400}
+      ],
+      "trend": "UPTREND",
+      "avg_volume_7d": 7395914,
+      "volatility": "MODERATE"
+    },
+    "RELIANCE": {
+      "data": [
+        {"date": "2026-04-11", "close": 2925.45, "volume": 5250000},
+        {"date": "2026-04-14", "close": 2912.30, "volume": 5480000},
+        {"date": "2026-04-15", "close": 2905.80, "volume": 5350000},
+        {"date": "2026-04-16", "close": 2898.25, "volume": 5650000},
+        {"date": "2026-04-17", "close": 2895.60, "volume": 5820000},
+        {"date": "2026-04-18", "close": 2895.70, "volume": 5750000},
+        {"date": "2026-04-21", "close": 2856.40, "volume": 6789000}
+      ],
+      "trend": "DOWNTREND",
+      "avg_volume_7d": 5727286,
+      "volatility": "MODERATE"
+    },
+    "ICICIBANK": {
+      "data": [
+        {"date": "2026-04-11", "close": 1185.45, "volume": 9850000},
+        {"date": "2026-04-14", "close": 1178.30, "volume": 10120000},
+        {"date": "2026-04-15", "close": 1172.80, "volume": 9950000},
+        {"date": "2026-04-16", "close": 1168.25, "volume": 10250000},
+        {"date": "2026-04-17", "close": 1165.60, "volume": 10450000},
+        {"date": "2026-04-18", "close": 1165.20, "volume": 10380000},
+        {"date": "2026-04-21", "close": 1128.75, "volume": 12456700}
+      ],
+      "trend": "DOWNTREND",
+      "avg_volume_7d": 10493814,
+      "volatility": "HIGH"
+    },
+    "SBIN": {
+      "data": [
+        {"date": "2026-04-11", "close": 795.80, "volume": 14250000},
+        {"date": "2026-04-14", "close": 790.45, "volume": 14580000},
+        {"date": "2026-04-15", "close": 785.30, "volume": 14350000},
+        {"date": "2026-04-16", "close": 780.60, "volume": 14850000},
+        {"date": "2026-04-17", "close": 778.25, "volume": 15120000},
+        {"date": "2026-04-18", "close": 775.80, "volume": 15050000},
+        {"date": "2026-04-21", "close": 752.40, "volume": 18567800}
+      ],
+      "trend": "DOWNTREND",
+      "avg_volume_7d": 15252543,
+      "volatility": "HIGH"
+    },
+    "SUNPHARMA": {
+      "data": [
+        {"date": "2026-04-11", "close": 1195.30, "volume": 2650000},
+        {"date": "2026-04-14", "close": 1205.45, "volume": 2780000},
+        {"date": "2026-04-15", "close": 1212.80, "volume": 2650000},
+        {"date": "2026-04-16", "close": 1218.25, "volume": 2720000},
+        {"date": "2026-04-17", "close": 1222.60, "volume": 2850000},
+        {"date": "2026-04-18", "close": 1225.40, "volume": 2780000},
+        {"date": "2026-04-21", "close": 1245.80, "volume": 3456700}
+      ],
+      "trend": "UPTREND",
+      "avg_volume_7d": 2840957,
+      "volatility": "LOW"
+    }
+  },
+  "sector_weekly_performance": {
+    "BANKING": {
+      "weekly_change_percent": -4.85,
+      "trend": "STRONG_DOWNTREND",
+      "catalyst": "RBI hawkish stance, FII selling"
+    },
+    "INFORMATION_TECHNOLOGY": {
+      "weekly_change_percent": 3.45,
+      "trend": "UPTREND",
+      "catalyst": "US tech earnings, weak rupee"
+    },
+    "PHARMACEUTICALS": {
+      "weekly_change_percent": 1.95,
+      "trend": "UPTREND",
+      "catalyst": "USFDA approvals, defensive rotation"
+    },
+    "AUTOMOBILE": {
+      "weekly_change_percent": -2.15,
+      "trend": "DOWNTREND",
+      "catalyst": "Input cost concerns, supply chain issues"
+    },
+    "FMCG": {
+      "weekly_change_percent": 0.65,
+      "trend": "SIDEWAYS",
+      "catalyst": "Defensive buying, rural recovery hopes"
+    },
+    "ENERGY": {
+      "weekly_change_percent": -1.25,
+      "trend": "DOWNTREND",
+      "catalyst": "Oil price volatility, mixed Q4 results"
+    },
+    "METALS": {
+      "weekly_change_percent": -3.80,
+      "trend": "DOWNTREND",
+      "catalyst": "China demand concerns, commodity selloff"
+    },
+    "REALTY": {
+      "weekly_change_percent": -4.20,
+      "trend": "STRONG_DOWNTREND",
+      "catalyst": "Rate sensitivity, high valuations"
+    },
+    "FINANCIAL_SERVICES": {
+      "weekly_change_percent": -3.50,
+      "trend": "DOWNTREND",
+      "catalyst": "Rate concerns, NBFC margin pressure"
+    }
+  },
+  "market_breadth": {
+    "date": "2026-04-21",
+    "nifty50": {
+      "advances": 12,
+      "declines": 38,
+      "unchanged": 0,
+      "advance_decline_ratio": 0.32
+    },
+    "nifty500": {
+      "advances": 145,
+      "declines": 348,
+      "unchanged": 7,
+      "advance_decline_ratio": 0.42
+    },
+    "new_52_week_highs": 8,
+    "new_52_week_lows": 45,
+    "sentiment_indicator": "FEAR"
+  },
+  "fii_dii_data": {
+    "date": "2026-04-21",
+    "fii": {
+      "buy_value_cr": 8520,
+      "sell_value_cr": 13020,
+      "net_value_cr": -4500,
+      "mtd_net_cr": -32000,
+      "ytd_net_cr": -85000
+    },
+    "dii": {
+      "buy_value_cr": 9850,
+      "sell_value_cr": 6520,
+      "net_value_cr": 3330,
+      "mtd_net_cr": 24500,
+      "ytd_net_cr": 72000
+    },
+    "observation": "FIIs continue aggressive selling while DIIs provide support"
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "metadata": {
+    "description": "Stock to Sector mapping for the Financial Advisor Agent",
+    "last_updated": "2026-04-21"
+  },
+  "sectors": {
+    "BANKING": {
+      "description": "Banks and lending institutions",
+      "index": "BANKNIFTY",
+      "sub_sectors": ["Private Banks", "Public Banks", "Small Finance Banks"],
+      "rate_sensitive": true,
+      "key_metrics": ["NIM", "GNPA", "CASA", "ROA", "ROE"],
+      "stocks": ["HDFCBANK", "ICICIBANK", "SBIN", "KOTAKBANK", "AXISBANK", "INDUSINDBK", "FEDERALBNK", "BANDHANBNK", "IDFCFIRSTB", "PNB"]
+    },
+    "INFORMATION_TECHNOLOGY": {
+      "description": "IT Services, Software, and Technology companies",
+      "index": "NIFTYIT",
+      "sub_sectors": ["IT Services", "Product Companies", "IT Infrastructure"],
+      "rate_sensitive": false,
+      "export_oriented": true,
+      "key_metrics": ["Revenue Growth", "EBIT Margin", "Deal Wins", "Attrition"],
+      "stocks": ["TCS", "INFY", "WIPRO", "HCLTECH", "TECHM", "LTIM", "MPHASIS", "COFORGE", "PERSISTENT", "TATAELXSI"]
+    },
+    "PHARMACEUTICALS": {
+      "description": "Pharmaceutical and healthcare companies",
+      "index": "NIFTYPHARMA",
+      "sub_sectors": ["Pharmaceuticals", "Healthcare Services", "Hospitals"],
+      "rate_sensitive": false,
+      "defensive": true,
+      "key_metrics": ["R&D Spend", "USFDA Approvals", "ANDA Pipeline", "API Revenue"],
+      "stocks": ["SUNPHARMA", "DRREDDY", "CIPLA", "DIVISLAB", "BIOCON", "LUPIN", "AUROPHARMA", "TORNTPHARM", "ALKEM", "IPCALAB"]
+    },
+    "AUTOMOBILE": {
+      "description": "Automobile manufacturers and ancillaries",
+      "index": "NIFTYAUTO",
+      "sub_sectors": ["Passenger Vehicles", "Commercial Vehicles", "Two-Wheelers", "Auto Ancillaries"],
+      "rate_sensitive": true,
+      "cyclical": true,
+      "key_metrics": ["Volume Growth", "ASP", "Market Share", "EBITDA Margin"],
+      "stocks": ["MARUTI", "TATAMOTORS", "M&M", "BAJAJ-AUTO", "HEROMOTOCO", "EICHERMOT", "ASHOKLEY", "BHARATFORG", "BOSCHLTD", "MOTHERSON"]
+    },
+    "FMCG": {
+      "description": "Fast Moving Consumer Goods",
+      "index": "NIFTYFMCG",
+      "sub_sectors": ["Personal Care", "Food Products", "Tobacco & FMCG", "Paints", "Jewellery"],
+      "rate_sensitive": false,
+      "defensive": true,
+      "key_metrics": ["Volume Growth", "Rural/Urban Mix", "Distribution Reach", "Market Share"],
+      "stocks": ["HINDUNILVR", "ITC", "BRITANNIA", "NESTLEIND", "GODREJCP", "DABUR", "MARICO", "COLPAL", "ASIANPAINT", "TITAN"]
+    },
+    "ENERGY": {
+      "description": "Oil, Gas, and Power companies",
+      "index": "NIFTYENERGY",
+      "sub_sectors": ["Oil & Gas", "Oil Exploration", "Oil Refining", "Power Generation", "Power Transmission", "Renewable Energy"],
+      "rate_sensitive": false,
+      "commodity_linked": true,
+      "key_metrics": ["GRM", "Production Volume", "PLF", "Capex"],
+      "stocks": ["RELIANCE", "ONGC", "BPCL", "IOC", "POWERGRID", "NTPC", "ADANIGREEN", "TATAPOWER", "GAIL", "COALINDIA"]
+    },
+    "METALS": {
+      "description": "Steel, Aluminium, and other metals",
+      "index": "NIFTYMETAL",
+      "sub_sectors": ["Steel", "Aluminium", "Copper", "Mining"],
+      "rate_sensitive": false,
+      "commodity_linked": true,
+      "cyclical": true,
+      "key_metrics": ["Realizations", "Production Volume", "EBITDA/ton", "Coking Coal Costs"],
+      "stocks": ["TATASTEEL", "HINDALCO", "JSWSTEEL", "VEDL", "JINDALSTEL", "NATIONALUM", "NMDC", "SAIL", "HINDZINC", "MOIL"]
+    },
+    "REALTY": {
+      "description": "Real Estate developers and construction",
+      "index": "NIFTYREALTY",
+      "sub_sectors": ["Real Estate", "Commercial Real Estate"],
+      "rate_sensitive": true,
+      "cyclical": true,
+      "key_metrics": ["Pre-sales", "Collections", "Launch Pipeline", "Net Debt"],
+      "stocks": ["DLF", "GODREJPROP", "OBEROIRLTY", "PRESTIGE", "PHOENIXLTD", "BRIGADE", "SOBHA", "LODHA", "MAHLIFE"]
+    },
+    "INFRASTRUCTURE": {
+      "description": "Infrastructure and construction companies",
+      "index": "NIFTYINFRA",
+      "sub_sectors": ["Construction", "IT Infrastructure", "EPC"],
+      "rate_sensitive": true,
+      "govt_capex_linked": true,
+      "key_metrics": ["Order Book", "Order Inflows", "Execution", "Working Capital"],
+      "stocks": ["LT", "LTIM", "ADANIENT", "ADANIPORTS", "ABB", "SIEMENS", "HAVELLS", "POLYCAB", "CUMMINSIND"]
+    },
+    "FINANCIAL_SERVICES": {
+      "description": "NBFCs, Insurance, and other financial services",
+      "index": "NIFTYFINANCE",
+      "sub_sectors": ["Consumer Finance", "Life Insurance", "General Insurance", "Asset Management", "Broking"],
+      "rate_sensitive": true,
+      "key_metrics": ["AUM", "Disbursements", "NPA", "VNB Margin", "Persistency"],
+      "stocks": ["BAJFINANCE", "BAJAJFINSV", "HDFCLIFE", "SBILIFE", "ICICIPRULI", "HDFCAMC", "MUTHOOTFIN", "CHOLAFIN", "SHRIRAMFIN", "ICICIGI"]
+    },
+    "TELECOM": {
+      "description": "Telecommunications companies",
+      "sub_sectors": ["Wireless", "Broadband", "Tower Companies"],
+      "rate_sensitive": false,
+      "key_metrics": ["ARPU", "Subscriber Adds", "Data Usage", "Churn"],
+      "stocks": ["BHARTIARTL", "IDEA", "TATACOMM", "INDUSTOWER"]
+    }
+  },
+  "macro_correlations": {
+    "INTEREST_RATE_UP": {
+      "negative_impact": ["BANKING", "REALTY", "AUTOMOBILE", "FINANCIAL_SERVICES", "INFRASTRUCTURE"],
+      "positive_impact": [],
+      "neutral": ["INFORMATION_TECHNOLOGY", "PHARMACEUTICALS", "FMCG"]
+    },
+    "INTEREST_RATE_DOWN": {
+      "negative_impact": [],
+      "positive_impact": ["BANKING", "REALTY", "AUTOMOBILE", "FINANCIAL_SERVICES", "INFRASTRUCTURE"],
+      "neutral": ["INFORMATION_TECHNOLOGY", "PHARMACEUTICALS", "FMCG"]
+    },
+    "RUPEE_DEPRECIATION": {
+      "negative_impact": ["ENERGY"],
+      "positive_impact": ["INFORMATION_TECHNOLOGY", "PHARMACEUTICALS"],
+      "neutral": ["FMCG", "BANKING"]
+    },
+    "CRUDE_OIL_UP": {
+      "negative_impact": ["AUTOMOBILE", "FMCG"],
+      "positive_impact": ["ENERGY"],
+      "neutral": ["INFORMATION_TECHNOLOGY", "PHARMACEUTICALS"]
+    },
+    "CHINA_SLOWDOWN": {
+      "negative_impact": ["METALS"],
+      "positive_impact": [],
+      "neutral": ["BANKING", "INFORMATION_TECHNOLOGY", "PHARMACEUTICALS"]
+    },
+    "US_TECH_SPENDING_UP": {
+      "negative_impact": [],
+      "positive_impact": ["INFORMATION_TECHNOLOGY"],
+      "neutral": ["BANKING", "ENERGY", "METALS"]
+    },
+    "FII_OUTFLOW": {
+      "negative_impact": ["BANKING", "FINANCIAL_SERVICES", "HIGH_BETA_STOCKS"],
+      "positive_impact": [],
+      "neutral": ["FMCG", "PHARMACEUTICALS"]
+    },
+    "GOVT_CAPEX_PUSH": {
+      "negative_impact": [],
+      "positive_impact": ["INFRASTRUCTURE", "METALS", "ENERGY"],
+      "neutral": ["INFORMATION_TECHNOLOGY", "FMCG"]
+    }
+  },
+  "defensive_sectors": ["PHARMACEUTICALS", "FMCG"],
+  "cyclical_sectors": ["METALS", "AUTOMOBILE", "REALTY"],
+  "rate_sensitive_sectors": ["BANKING", "REALTY", "AUTOMOBILE", "FINANCIAL_SERVICES", "INFRASTRUCTURE"],
+  "export_oriented_sectors": ["INFORMATION_TECHNOLOGY", "PHARMACEUTICALS"]
+}
