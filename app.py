@@ -75,142 +75,143 @@ st.set_page_config(
 )
 
 
-# Inline CSS for smoother cards, tighter spacing, cleaner typography.
+# Inline CSS — subtle dark polish, smaller typography, sidebar always visible.
 # Targets Streamlit's stable data-testid selectors so it survives minor upgrades.
 st.markdown(
     """
     <style>
-      /* Hide Streamlit chrome */
+      /* Hide Streamlit chrome (top-right hamburger, footer, top header bar) */
       #MainMenu, footer, header[data-testid="stHeader"] {visibility: hidden; height: 0;}
 
-      /* Page padding */
-      [data-testid="stMain"] [data-testid="stMainBlockContainer"] {
-          padding-top: 2rem;
-          padding-bottom: 4rem;
-          max-width: 1400px;
+      /* Keep the sidebar locked open on every load — disable the collapse button.
+         Reviewers consistently miss the chevron and think the controls are gone. */
+      [data-testid="stSidebarCollapseButton"],
+      [data-testid="stSidebarCollapsedControl"] {
+          display: none !important;
+      }
+      [data-testid="stSidebar"][aria-expanded="false"] {
+          transform: translateX(0) !important;
+          visibility: visible !important;
+          min-width: 290px !important;
+      }
+      [data-testid="stSidebar"] {
+          background: rgba(15, 23, 42, 0.7);
+          border-right: 1px solid rgba(148, 163, 184, 0.08);
+      }
+      [data-testid="stSidebar"] h1 {
+          font-size: 1.05rem !important;
+          font-weight: 600;
+          margin-bottom: 0.15rem;
       }
 
-      /* Metric tiles — softer card look */
-      [data-testid="stMetric"] {
-          background: rgba(30, 41, 59, 0.55);
-          border: 1px solid rgba(148, 163, 184, 0.10);
-          border-radius: 14px;
-          padding: 1.1rem 1.25rem;
-          transition: border-color 120ms ease, transform 120ms ease;
+      /* Main content padding */
+      [data-testid="stMain"] [data-testid="stMainBlockContainer"] {
+          padding-top: 1.5rem;
+          padding-bottom: 3rem;
       }
-      [data-testid="stMetric"]:hover {
-          border-color: rgba(34, 197, 94, 0.35);
+
+      /* Tighter, smaller typography across the board */
+      h1 { font-size: 1.55rem !important; font-weight: 600; letter-spacing: -0.012em; margin: 0.4rem 0 0.6rem; }
+      h2 { font-size: 1.25rem !important; font-weight: 600; letter-spacing: -0.012em; margin: 0.8rem 0 0.4rem; }
+      h3 { font-size: 1.05rem !important; font-weight: 600; letter-spacing: -0.01em; margin: 0.8rem 0 0.4rem; }
+      h4 { font-size: 0.95rem !important; font-weight: 600; margin: 0.6rem 0 0.3rem; }
+      h5 { font-size: 0.85rem !important; font-weight: 500; color: rgba(241, 245, 249, 0.75); margin: 0.4rem 0; }
+
+      /* Body text */
+      [data-testid="stMarkdownContainer"] p { font-size: 0.92rem; line-height: 1.5; }
+
+      /* Metric tiles — quieter */
+      [data-testid="stMetric"] {
+          background: rgba(30, 41, 59, 0.4);
+          border: 1px solid rgba(148, 163, 184, 0.08);
+          border-radius: 10px;
+          padding: 0.7rem 0.9rem;
       }
       [data-testid="stMetric"] [data-testid="stMetricLabel"] {
-          color: rgba(241, 245, 249, 0.65);
-          font-size: 0.78rem;
-          letter-spacing: 0.02em;
+          color: rgba(241, 245, 249, 0.55);
+          font-size: 0.7rem;
+          letter-spacing: 0.04em;
           text-transform: uppercase;
           font-weight: 500;
       }
       [data-testid="stMetric"] [data-testid="stMetricValue"] {
-          font-size: 1.65rem;
+          font-size: 1.15rem;
           font-weight: 600;
           letter-spacing: -0.01em;
       }
-
-      /* Containers with border= — softer corners + subtle shadow */
-      [data-testid="stVerticalBlockBorderWrapper"] {
-          border-radius: 14px !important;
-          border-color: rgba(148, 163, 184, 0.10) !important;
-          background: rgba(30, 41, 59, 0.35);
-          padding: 0.4rem 0.6rem;
+      [data-testid="stMetric"] [data-testid="stMetricDelta"] {
+          font-size: 0.75rem;
       }
 
-      /* Tabs — bigger, cleaner tab labels */
+      /* Bordered containers — subtler */
+      [data-testid="stVerticalBlockBorderWrapper"] {
+          border-radius: 10px !important;
+          border-color: rgba(148, 163, 184, 0.08) !important;
+          background: rgba(30, 41, 59, 0.25);
+      }
+
+      /* Tabs */
       .stTabs [data-baseweb="tab-list"] {
-          gap: 0.4rem;
-          border-bottom: 1px solid rgba(148, 163, 184, 0.10);
+          gap: 0.2rem;
+          border-bottom: 1px solid rgba(148, 163, 184, 0.08);
       }
       .stTabs [data-baseweb="tab"] {
-          padding: 0.6rem 1rem;
-          font-size: 0.95rem;
-          color: rgba(241, 245, 249, 0.65);
-          background: transparent;
+          padding: 0.45rem 0.85rem;
+          font-size: 0.85rem;
+          color: rgba(241, 245, 249, 0.6);
       }
       .stTabs [aria-selected="true"] {
           color: #f1f5f9;
           font-weight: 600;
       }
 
-      /* Sidebar polish */
-      [data-testid="stSidebar"] {
-          background: rgba(15, 23, 42, 0.85);
-          border-right: 1px solid rgba(148, 163, 184, 0.08);
-      }
-      [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] h1 {
-          font-size: 1.25rem;
-          letter-spacing: -0.01em;
-          margin-bottom: 0.2rem;
-      }
-
-      /* Buttons — smoother */
+      /* Buttons — flat & smaller */
       [data-testid="stBaseButton-secondary"],
       [data-testid="stBaseButton-primary"] {
-          border-radius: 10px;
+          border-radius: 8px;
           font-weight: 500;
-          transition: transform 80ms ease, box-shadow 80ms ease;
-      }
-      [data-testid="stBaseButton-primary"]:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 4px 12px rgba(34, 197, 94, 0.25);
+          font-size: 0.85rem;
+          padding: 0.35rem 0.85rem;
       }
 
-      /* Chat input + messages */
-      [data-testid="stChatInput"] {
-          border-radius: 14px;
-      }
+      /* Chat */
+      [data-testid="stChatInput"] { border-radius: 10px; }
       [data-testid="stChatMessage"] {
-          background: rgba(30, 41, 59, 0.45);
-          border: 1px solid rgba(148, 163, 184, 0.08);
-          border-radius: 14px;
+          background: rgba(30, 41, 59, 0.35);
+          border: 1px solid rgba(148, 163, 184, 0.06);
+          border-radius: 10px;
       }
 
-      /* Subtler dividers */
+      /* Dividers */
       hr {
-          border-color: rgba(148, 163, 184, 0.12) !important;
-          margin: 1.4rem 0;
+          border-color: rgba(148, 163, 184, 0.10) !important;
+          margin: 1rem 0;
       }
 
-      /* Section headers */
-      h1, h2, h3 {
-          letter-spacing: -0.015em;
-      }
-      h3 {
-          font-weight: 600;
-          margin-top: 1rem;
-      }
-
-      /* Severity / priority badges (used inline below) */
+      /* Pill chips for severity / status */
       .pill {
           display: inline-flex;
           align-items: center;
-          gap: 0.35rem;
-          padding: 0.18rem 0.6rem;
+          gap: 0.3rem;
+          padding: 0.1rem 0.55rem;
           border-radius: 999px;
-          font-size: 0.78rem;
-          font-weight: 600;
+          font-size: 0.72rem;
+          font-weight: 500;
           letter-spacing: 0.01em;
       }
-      .pill-critical { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3); }
-      .pill-warn     { background: rgba(234, 179, 8, 0.15); color: #fde68a; border: 1px solid rgba(234, 179, 8, 0.3); }
-      .pill-info     { background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3); }
-      .pill-high     { background: rgba(239, 68, 68, 0.12); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.25); }
-      .pill-medium   { background: rgba(234, 179, 8, 0.12); color: #fde68a; border: 1px solid rgba(234, 179, 8, 0.25); }
-      .pill-low      { background: rgba(34, 197, 94, 0.12); color: #86efac; border: 1px solid rgba(34, 197, 94, 0.25); }
-      .pill-on       { background: rgba(34, 197, 94, 0.15); color: #86efac; border: 1px solid rgba(34, 197, 94, 0.3); }
-      .pill-off      { background: rgba(148, 163, 184, 0.12); color: #cbd5e1; border: 1px solid rgba(148, 163, 184, 0.25); }
-
+      .pill-critical { background: rgba(239, 68, 68, 0.13); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.25); }
+      .pill-warn     { background: rgba(234, 179, 8, 0.12); color: #fde68a; border: 1px solid rgba(234, 179, 8, 0.25); }
+      .pill-info     { background: rgba(59, 130, 246, 0.12); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.22); }
+      .pill-high     { background: rgba(239, 68, 68, 0.10); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.20); }
+      .pill-medium   { background: rgba(234, 179, 8, 0.10); color: #fde68a; border: 1px solid rgba(234, 179, 8, 0.20); }
+      .pill-low      { background: rgba(34, 197, 94, 0.10); color: #86efac; border: 1px solid rgba(34, 197, 94, 0.20); }
+      .pill-on       { background: rgba(34, 197, 94, 0.12); color: #86efac; border: 1px solid rgba(34, 197, 94, 0.25); }
+      .pill-off      { background: rgba(148, 163, 184, 0.10); color: #cbd5e1; border: 1px solid rgba(148, 163, 184, 0.20); }
       .pill code, .mono {
           background: rgba(148, 163, 184, 0.10);
-          padding: 0.1rem 0.45rem;
-          border-radius: 6px;
-          font-size: 0.82rem;
+          padding: 0.08rem 0.4rem;
+          border-radius: 5px;
+          font-size: 0.78rem;
       }
     </style>
     """,
@@ -445,64 +446,45 @@ if st.session_state.pop("regen", False):
 # ---------------------------------------------------------------------------
 
 if "run" not in st.session_state:
-    st.markdown("# :material/insights: Causal Advisor")
-    st.markdown(
-        "##### Reasoning-first financial advisor agent for Indian equity portfolios."
-    )
-    st.markdown("")
-
-    intro_a, intro_b, intro_c = st.columns(3)
-    with intro_a:
-        with st.container(border=True):
-            st.markdown("**:material/insights: Causal reasoning**")
-            st.write(
-                "Links macro news → sector → stock → ₹ portfolio impact "
-                "with quantified attribution."
-            )
-    with intro_b:
-        with st.container(border=True):
-            st.markdown("**:material/compare_arrows: Conflict resolution**")
-            st.write(
-                "Surfaces divergent signals (positive news + negative price action) "
-                "and reconciles them with mechanism, not platitudes."
-            )
-    with intro_c:
-        with st.container(border=True):
-            st.markdown("**:material/fact_check: Self-evaluation**")
-            st.write(
-                "Every briefing is scored across 5 dimensions by both rule-based "
-                "checks and an LLM-as-judge."
-            )
-
-    st.markdown("")
-    st.markdown("##### Pick a portfolio to start")
+    st.markdown("# Causal Advisor")
     st.caption(
-        "Click any **Generate briefing** button below — or use the sidebar on the left "
-        "to switch provider/model first."
+        "Reasoning-first financial advisor agent for Indian equity portfolios. "
+        "Links macro news → sector → stock → ₹ portfolio impact, flags conflicting "
+        "signals, and grades its own output."
     )
 
+    st.markdown("##### Sample portfolios")
     auto_provider = default_provider()
     auto_model = MODEL_OPTIONS[auto_provider][0]
     for pid, p in loader.portfolios.items():
         with st.container(border=True):
-            cols = st.columns([3, 1, 1, 1.5])
-            cols[0].markdown(f"**{pid} — {p.user_name}**")
-            cols[0].caption(p.description)
-            cols[1].metric("Holdings", len(p.stocks) + len(p.mutual_funds))
-            cols[2].metric("Risk", p.risk_profile.title())
-            if cols[3].button(
-                ":material/rocket_launch: Generate briefing",
-                key=f"empty_gen_{pid}",
-                type="primary",
-                use_container_width=True,
-            ):
-                queue_briefing(
-                    pid,
-                    provider=auto_provider,
-                    model=auto_model,
-                    use_judge=(auto_provider != "mock"),
+            cols = st.columns([4, 1.4])
+            with cols[0]:
+                st.markdown(f"**{pid} — {p.user_name}**")
+                st.caption(
+                    f"{p.description} · "
+                    f"{len(p.stocks) + len(p.mutual_funds)} holdings · "
+                    f"{p.risk_profile.title()} risk"
                 )
-                st.rerun()
+            with cols[1]:
+                if st.button(
+                    ":material/rocket_launch: Generate",
+                    key=f"empty_gen_{pid}",
+                    type="primary",
+                    use_container_width=True,
+                ):
+                    queue_briefing(
+                        pid,
+                        provider=auto_provider,
+                        model=auto_model,
+                        use_judge=(auto_provider != "mock"),
+                    )
+                    st.rerun()
+
+    st.caption(
+        f":material/menu: Provider currently set to **{auto_provider}** "
+        f"(`{auto_model}`). Use the sidebar on the left to switch."
+    )
     st.stop()
 
 
