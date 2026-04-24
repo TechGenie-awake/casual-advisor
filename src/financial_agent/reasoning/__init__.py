@@ -16,7 +16,12 @@ from financial_agent.reasoning.briefing import (
     ConflictNote,
     Recommendation,
 )
-from financial_agent.reasoning.client import AnthropicClient, BaseLLMClient, MockLLMClient
+from financial_agent.reasoning.client import (
+    AnthropicClient,
+    BaseLLMClient,
+    GroqClient,
+    MockLLMClient,
+)
 from financial_agent.reasoning.context import ReasoningContext, build_context
 
 __all__ = [
@@ -25,6 +30,7 @@ __all__ = [
     "Briefing",
     "CausalLink",
     "ConflictNote",
+    "GroqClient",
     "MockLLMClient",
     "ReasoningAgent",
     "ReasoningContext",

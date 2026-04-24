@@ -81,6 +81,56 @@ class AnthropicClient:
         )
 
 
+class GroqClient:
+    """Wraps the Groq SDK. Free tier; OpenAI-style chat-completions API.
+
+    Default model is Llama 3.3 70B Versatile — the strongest free-tier model
+    Groq currently exposes, and capable of reliable XML output for our schema.
+    """
+
+    DEFAULT_GROQ_MODEL = "llama-3.3-70b-versatile"
+
+    def __init__(
+        self,
+        *,
+        model: str = DEFAULT_GROQ_MODEL,
+        max_tokens: int = DEFAULT_MAX_TOKENS,
+        temperature: float = DEFAULT_TEMPERATURE,
+        api_key: str | None = None,
+    ) -> None:
+        from groq import Groq
+
+        resolved_key = api_key or os.environ.get("GROQ_API_KEY")
+        if not resolved_key:
+            raise RuntimeError(
+                "GROQ_API_KEY is not set. "
+                "Set it in your shell, in .env, or pass api_key= explicitly."
+            )
+
+        self._client = Groq(api_key=resolved_key)
+        self._model = model
+        self._max_tokens = max_tokens
+        self._temperature = temperature
+
+    def complete(self, system: str, user: str) -> LLMResponse:
+        msg = self._client.chat.completions.create(
+            model=self._model,
+            max_tokens=self._max_tokens,
+            temperature=self._temperature,
+            messages=[
+                {"role": "system", "content": system},
+                {"role": "user", "content": user},
+            ],
+        )
+        text = msg.choices[0].message.content or ""
+        return LLMResponse(
+            text=text,
+            model=self._model,
+            input_tokens=msg.usage.prompt_tokens,
+            output_tokens=msg.usage.completion_tokens,
+        )
+
+
 class MockLLMClient:
     """Returns a canned response. Used for unit tests and dry-runs.
 
