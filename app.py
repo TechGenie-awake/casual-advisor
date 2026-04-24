@@ -453,38 +453,22 @@ if "run" not in st.session_state:
         "signals, and grades its own output."
     )
 
+    st.info(
+        "Pick a portfolio in the sidebar (left), choose a provider, then click "
+        "**Generate briefing**. Use **mock** if Groq's free tier is rate-limited.",
+        icon=":material/keyboard_arrow_left:",
+    )
+
     st.markdown("##### Sample portfolios")
-    auto_provider = default_provider()
-    auto_model = MODEL_OPTIONS[auto_provider][0]
     for pid, p in loader.portfolios.items():
         with st.container(border=True):
-            cols = st.columns([4, 1.4])
-            with cols[0]:
-                st.markdown(f"**{pid} — {p.user_name}**")
-                st.caption(
-                    f"{p.description} · "
-                    f"{len(p.stocks) + len(p.mutual_funds)} holdings · "
-                    f"{p.risk_profile.title()} risk"
-                )
-            with cols[1]:
-                if st.button(
-                    ":material/rocket_launch: Generate",
-                    key=f"empty_gen_{pid}",
-                    type="primary",
-                    use_container_width=True,
-                ):
-                    queue_briefing(
-                        pid,
-                        provider=auto_provider,
-                        model=auto_model,
-                        use_judge=(auto_provider != "mock"),
-                    )
-                    st.rerun()
+            st.markdown(f"**{pid} — {p.user_name}**")
+            st.caption(
+                f"{p.description} · "
+                f"{len(p.stocks) + len(p.mutual_funds)} holdings · "
+                f"{p.risk_profile.title()} risk"
+            )
 
-    st.caption(
-        f":material/menu: Provider currently set to **{auto_provider}** "
-        f"(`{auto_model}`). Use the sidebar on the left to switch."
-    )
     st.stop()
 
 
