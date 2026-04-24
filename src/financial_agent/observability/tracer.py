@@ -18,7 +18,13 @@ class Tracer:
     def __init__(self) -> None:
         public = os.environ.get("LANGFUSE_PUBLIC_KEY", "").strip()
         secret = os.environ.get("LANGFUSE_SECRET_KEY", "").strip()
-        host = os.environ.get("LANGFUSE_HOST", "https://cloud.langfuse.com").strip()
+        # Accept both LANGFUSE_HOST (canonical SDK var) and LANGFUSE_BASE_URL
+        # (older / alternate name some setups use). First non-empty wins.
+        host = (
+            os.environ.get("LANGFUSE_HOST", "").strip()
+            or os.environ.get("LANGFUSE_BASE_URL", "").strip()
+            or "https://cloud.langfuse.com"
+        )
 
         self._client: Any | None = None
         if not (public and secret):
