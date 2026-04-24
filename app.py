@@ -260,6 +260,36 @@ def make_context(loader: DataLoader, portfolio_id: str):
 
 
 # ---------------------------------------------------------------------------
+# Provider-default helpers (used by sidebar AND empty-state quick-launch)
+# ---------------------------------------------------------------------------
+
+PROVIDER_OPTIONS = ["groq", "anthropic", "mock"]
+MODEL_OPTIONS = {
+    "groq": ["llama-3.3-70b-versatile", "llama-3.1-8b-instant"],
+    "anthropic": ["claude-sonnet-4-5", "claude-opus-4-5"],
+    "mock": ["mock"],
+}
+
+
+def default_provider() -> str:
+    if os.environ.get("GROQ_API_KEY"):
+        return "groq"
+    if os.environ.get("ANTHROPIC_API_KEY"):
+        return "anthropic"
+    return "mock"
+
+
+def queue_briefing(portfolio_id: str, *, provider: str, model: str, use_judge: bool) -> None:
+    """Stage a regen — picked up at the bottom of the script run."""
+    st.session_state.pop("chat_session", None)
+    st.session_state["regen"] = True
+    st.session_state["pending_portfolio"] = portfolio_id
+    st.session_state["pending_provider"] = provider
+    st.session_state["pending_model"] = model
+    st.session_state["pending_use_judge"] = use_judge
+
+
+# ---------------------------------------------------------------------------
 # Sidebar — controls
 # ---------------------------------------------------------------------------
 
@@ -290,22 +320,13 @@ with st.sidebar:
 
     st.divider()
 
-    provider_choice = "groq" if os.environ.get("GROQ_API_KEY") else (
-        "anthropic" if os.environ.get("ANTHROPIC_API_KEY") else "mock"
-    )
     provider = st.selectbox(
         "LLM provider",
-        options=["groq", "anthropic", "mock"],
-        index=["groq", "anthropic", "mock"].index(provider_choice),
+        options=PROVIDER_OPTIONS,
+        index=PROVIDER_OPTIONS.index(default_provider()),
         help="'mock' uses a deterministic stub — no API key required.",
     )
-
-    model_overrides = {
-        "groq": ["llama-3.3-70b-versatile", "llama-3.1-8b-instant"],
-        "anthropic": ["claude-sonnet-4-5", "claude-opus-4-5"],
-        "mock": ["mock"],
-    }
-    model = st.selectbox("Model", options=model_overrides[provider], index=0)
+    model = st.selectbox("Model", options=MODEL_OPTIONS[provider], index=0)
 
     use_judge = st.checkbox(
         "Run LLM-as-judge during eval",
@@ -320,12 +341,7 @@ with st.sidebar:
         type="primary",
         use_container_width=True,
     ):
-        st.session_state.pop("chat_session", None)
-        st.session_state["regen"] = True
-        st.session_state["pending_portfolio"] = portfolio_id
-        st.session_state["pending_provider"] = provider
-        st.session_state["pending_model"] = model
-        st.session_state["pending_use_judge"] = use_judge
+        queue_briefing(portfolio_id, provider=provider, model=model, use_judge=use_judge)
 
     st.divider()
     if tracer.enabled:
@@ -421,19 +437,34 @@ if "run" not in st.session_state:
             )
 
     st.markdown("")
-    st.markdown("##### Sample portfolios")
+    st.markdown("##### Pick a portfolio to start")
+    st.caption(
+        "Click any **Generate briefing** button below — or use the sidebar on the left "
+        "to switch provider/model first."
+    )
+
+    auto_provider = default_provider()
+    auto_model = MODEL_OPTIONS[auto_provider][0]
     for pid, p in loader.portfolios.items():
         with st.container(border=True):
-            cols = st.columns([2, 1, 1])
+            cols = st.columns([3, 1, 1, 1.5])
             cols[0].markdown(f"**{pid} — {p.user_name}**")
             cols[0].caption(p.description)
             cols[1].metric("Holdings", len(p.stocks) + len(p.mutual_funds))
-            cols[2].metric("Risk profile", p.risk_profile.title())
-
-    st.info(
-        "Pick a portfolio in the sidebar and click **Generate briefing**.",
-        icon=":material/touch_app:",
-    )
+            cols[2].metric("Risk", p.risk_profile.title())
+            if cols[3].button(
+                ":material/rocket_launch: Generate briefing",
+                key=f"empty_gen_{pid}",
+                type="primary",
+                use_container_width=True,
+            ):
+                queue_briefing(
+                    pid,
+                    provider=auto_provider,
+                    model=auto_model,
+                    use_judge=(auto_provider != "mock"),
+                )
+                st.rerun()
     st.stop()
 
 
