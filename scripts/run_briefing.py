@@ -22,6 +22,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
+# Load .env for API keys (no-op if file or python-dotenv missing).
+try:
+    from dotenv import load_dotenv
+    load_dotenv(ROOT / ".env")
+except ImportError:
+    pass
+
 from financial_agent.data_loader import DataLoader  # noqa: E402
 from financial_agent.market import MarketAnalyzer, NewsProcessor, SectorAnalyzer  # noqa: E402
 from financial_agent.portfolio import PortfolioAnalyzer  # noqa: E402
@@ -32,6 +39,50 @@ from financial_agent.reasoning import (  # noqa: E402
 )
 
 DATA_DIR = ROOT / "data"
+
+
+def _resolve_provider(requested: str) -> str:
+    """'auto' → groq if its key is set, else anthropic if its key is set, else error."""
+    if requested != "auto":
+        return requested
+    if os.environ.get("GROQ_API_KEY"):
+        return "groq"
+    if os.environ.get("ANTHROPIC_API_KEY"):
+        return "anthropic"
+    return "none"
+
+
+def _build_client(args):
+    """Returns an LLM client or None (with a stderr message) on failure."""
+    from financial_agent.reasoning import AnthropicClient, GroqClient
+
+    if args.dry_run:
+        # Built later from the per-portfolio context.
+        return "DEFER_TO_DRY_RUN"
+
+    provider = _resolve_provider(args.provider)
+    if provider == "mock":
+        return "DEFER_TO_DRY_RUN"
+
+    if provider == "groq":
+        if not os.environ.get("GROQ_API_KEY"):
+            sys.stderr.write("GROQ_API_KEY not set (check .env or your shell).\n")
+            return None
+        kwargs = {"model": args.model} if args.model else {}
+        return GroqClient(**kwargs)
+
+    if provider == "anthropic":
+        if not os.environ.get("ANTHROPIC_API_KEY"):
+            sys.stderr.write("ANTHROPIC_API_KEY not set (check .env or your shell).\n")
+            return None
+        kwargs = {"model": args.model} if args.model else {}
+        return AnthropicClient(**kwargs)
+
+    sys.stderr.write(
+        "No provider available. Set GROQ_API_KEY or ANTHROPIC_API_KEY in .env, "
+        "or re-run with --dry-run.\n"
+    )
+    return None
 
 
 def make_context(loader: DataLoader, portfolio_id: str):
@@ -56,6 +107,16 @@ def main() -> int:
         "--dry-run",
         action="store_true",
         help="Use the deterministic MockLLMClient (no API call).",
+    )
+    parser.add_argument(
+        "--provider",
+        choices=["auto", "groq", "anthropic", "mock"],
+        default="auto",
+        help="LLM provider. 'auto' picks groq if GROQ_API_KEY set, else anthropic.",
+    )
+    parser.add_argument(
+        "--model",
+        help="Override the model name (e.g., 'llama-3.3-70b-versatile' or 'claude-sonnet-4-5').",
     )
     parser.add_argument(
         "--json",
@@ -99,19 +160,12 @@ def main() -> int:
         )
         return 0
 
-    # Choose the client.
-    if args.dry_run:
+    # Choose the client. Sentinel string means "use the dry-run mock built from context".
+    client = _build_client(args)
+    if client is None:
+        return 2
+    if client == "DEFER_TO_DRY_RUN":
         client = MockLLMClient.from_context(context)
-    else:
-        if not os.environ.get("ANTHROPIC_API_KEY"):
-            sys.stderr.write(
-                "ANTHROPIC_API_KEY not set. Either:\n"
-                "  - export ANTHROPIC_API_KEY=sk-... and re-run, or\n"
-                "  - re-run with --dry-run for the mock briefing.\n"
-            )
-            return 2
-        from financial_agent.reasoning import AnthropicClient
-        client = AnthropicClient()
 
     agent = ReasoningAgent(client=client)
     run = agent.generate(context)
