@@ -8,10 +8,18 @@ only what it needs. This module is the filter:
   * Divergences: only those that touch held stocks.
   * Conflicts: news whose sentiment opposes its sector's mood, intersected
     with the portfolio's exposure.
+
+It also pre-computes two enrichments that materially boost reasoning quality:
+
+  * `contribution_attribution`: each holding's ₹ share of the day's P&L,
+    aggregated by sector. Lets the LLM cite "₹40k of ₹57k" instead of guessing.
+  * `relevant_macro_correlations`: a filtered slice of sector_mapping's
+    macro-event correlations, scoped to the portfolio's sector exposure.
 """
 
 from __future__ import annotations
 
+from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -34,6 +42,44 @@ MAX_NEWS_ITEMS = 8
 MAX_SECTOR_TRENDS = 8
 MAX_DIVERGENCES = 5
 MAX_CONFLICTS = 5
+MAX_HOLDING_CONTRIBUTORS = 6  # top contributors (positive + negative) the LLM sees by name
+
+
+@dataclass(frozen=True)
+class HoldingContribution:
+    identifier: str
+    name: str
+    sector: str
+    day_change_value: float       # ₹ contribution (signed)
+    pct_of_day_pnl: float | None  # share of total day P&L; None if day P&L ≈ 0
+
+
+@dataclass(frozen=True)
+class ContributionAttribution:
+    """Each holding's ₹ share of today's portfolio P&L."""
+
+    total_day_pnl: float
+    by_sector: dict[str, float]            # sector → ₹ contributed
+    top_contributors: list[HoldingContribution]  # mix of biggest losers + gainers
+
+    def to_dict(self) -> dict:
+        return {
+            "total_day_pnl": round(self.total_day_pnl, 2),
+            "by_sector": {k: round(v, 2) for k, v in self.by_sector.items()},
+            "top_contributors": [
+                {
+                    "identifier": c.identifier,
+                    "name": c.name,
+                    "sector": c.sector,
+                    "day_change_value": round(c.day_change_value, 2),
+                    "pct_of_day_pnl": (
+                        None if c.pct_of_day_pnl is None
+                        else round(c.pct_of_day_pnl, 2)
+                    ),
+                }
+                for c in self.top_contributors
+            ],
+        }
 
 
 @dataclass(frozen=True)
@@ -51,6 +97,8 @@ class ReasoningContext:
     relevant_news: list[NewsArticle]
     stock_vs_sector_divergences: list[tuple[str, str, float, float]]
     conflict_news: list[NewsArticle]
+    contribution_attribution: ContributionAttribution | None = None
+    relevant_macro_correlations: dict[str, dict[str, list[str]]] = field(default_factory=dict)
     extras: dict[str, Any] = field(default_factory=dict)
 
     def evidence_ids(self) -> list[str]:
@@ -62,6 +110,11 @@ class ReasoningContext:
             "portfolio_id": self.portfolio_id,
             "market": self.market.to_dict(),
             "portfolio_snapshot": self.portfolio_snapshot.to_dict(),
+            "contribution_attribution": (
+                self.contribution_attribution.to_dict()
+                if self.contribution_attribution
+                else None
+            ),
             "relevant_sector_trends": [t.to_dict() for t in self.relevant_sector_trends],
             "relevant_news": [
                 {
@@ -95,7 +148,79 @@ class ReasoningContext:
                 }
                 for a in self.conflict_news
             ],
+            "relevant_macro_correlations": self.relevant_macro_correlations,
         }
+
+
+def _compute_attribution(
+    portfolio: Portfolio,
+    snapshot: PortfolioSnapshot,
+) -> ContributionAttribution:
+    """Aggregate per-holding ₹ day-change into sector buckets + a top-N list."""
+    by_sector: dict[str, float] = defaultdict(float)
+    contributions: list[HoldingContribution] = []
+
+    total = snapshot.day_pnl
+    pct_safe = abs(total) >= 1.0  # avoid divide-by-near-zero on tiny day P&L
+
+    for s in portfolio.stocks:
+        by_sector[s.sector] += s.day_change
+        contributions.append(
+            HoldingContribution(
+                identifier=s.symbol,
+                name=s.name,
+                sector=s.sector,
+                day_change_value=s.day_change,
+                pct_of_day_pnl=(s.day_change / total * 100) if pct_safe else None,
+            )
+        )
+
+    for m in portfolio.mutual_funds:
+        # MFs don't sit in a single equity sector — bucket them under their category.
+        bucket = (
+            "DEBT_FUNDS"
+            if "DEBT" in m.category.upper()
+            else "HYBRID_FUNDS"
+            if "HYBRID" in m.category.upper()
+            else "MUTUAL_FUNDS"
+        )
+        by_sector[bucket] += m.day_change
+        contributions.append(
+            HoldingContribution(
+                identifier=m.scheme_code,
+                name=m.scheme_name,
+                sector=bucket,
+                day_change_value=m.day_change,
+                pct_of_day_pnl=(m.day_change / total * 100) if pct_safe else None,
+            )
+        )
+
+    # Top contributors by absolute ₹ impact — gainers and losers both surface.
+    top = sorted(contributions, key=lambda c: abs(c.day_change_value), reverse=True)[
+        :MAX_HOLDING_CONTRIBUTORS
+    ]
+    return ContributionAttribution(
+        total_day_pnl=total,
+        by_sector=dict(by_sector),
+        top_contributors=top,
+    )
+
+
+def _filter_macro_correlations(
+    all_correlations: dict[str, dict[str, list[str]]],
+    held_sectors: set[str],
+) -> dict[str, dict[str, list[str]]]:
+    """Keep only macro events that touch a held sector (positively or negatively)."""
+    out: dict[str, dict[str, list[str]]] = {}
+    for event, impact in all_correlations.items():
+        sectors_touched = (
+            set(impact.get("negative_impact", []))
+            | set(impact.get("positive_impact", []))
+            | set(impact.get("neutral", []))
+        )
+        if sectors_touched & held_sectors:
+            out[event] = impact
+    return out
 
 
 def build_context(
@@ -105,6 +230,7 @@ def build_context(
     sector_analyzer: SectorAnalyzer,
     news_processor: NewsProcessor,
     portfolio_analyzer: PortfolioAnalyzer,
+    macro_correlations: dict[str, dict[str, list[str]]] | None = None,
 ) -> ReasoningContext:
     """Assemble the context for one portfolio in a single pass."""
     snapshot = portfolio_analyzer.snapshot()
@@ -148,6 +274,14 @@ def build_context(
         or any(s in held_symbols for s in a.entities.stocks)
     ][:MAX_CONFLICTS]
 
+    attribution = _compute_attribution(portfolio, snapshot)
+
+    filtered_macro = (
+        _filter_macro_correlations(macro_correlations, held_sectors)
+        if macro_correlations
+        else {}
+    )
+
     return ReasoningContext(
         portfolio_id=portfolio.portfolio_id,
         market=market_intel,
@@ -156,4 +290,6 @@ def build_context(
         relevant_news=relevant_news,
         stock_vs_sector_divergences=portfolio_divergences,
         conflict_news=portfolio_conflict_news,
+        contribution_attribution=attribution,
+        relevant_macro_correlations=filtered_macro,
     )

@@ -33,6 +33,7 @@ def _ctx(loader, pid):
             mutual_funds=loader.mutual_funds,
             rate_sensitive_sectors=loader.sector_map.rate_sensitive_sectors,
         ),
+        macro_correlations=loader.sector_map.macro_correlations.correlations,
     )
 
 

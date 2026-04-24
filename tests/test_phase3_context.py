@@ -27,6 +27,7 @@ def _ctx(loader, pid):
             mutual_funds=loader.mutual_funds,
             rate_sensitive_sectors=loader.sector_map.rate_sensitive_sectors,
         ),
+        macro_correlations=loader.sector_map.macro_correlations.correlations,
     )
 
 
@@ -94,3 +95,61 @@ def test_context_to_dict_is_json_serializable(loader):
 def test_evidence_ids_match_relevant_news(loader):
     ctx = _ctx(loader, "PORTFOLIO_002")
     assert ctx.evidence_ids() == [a.id for a in ctx.relevant_news]
+
+
+# ---------------------------------------------------------------------------
+# Reasoning upgrades: contribution attribution + macro correlations
+# ---------------------------------------------------------------------------
+
+@pytest.mark.parametrize("pid", ["PORTFOLIO_001", "PORTFOLIO_002", "PORTFOLIO_003"])
+def test_contribution_attribution_present(loader, pid):
+    ctx = _ctx(loader, pid)
+    assert ctx.contribution_attribution is not None
+    assert ctx.contribution_attribution.by_sector
+    assert ctx.contribution_attribution.top_contributors
+
+
+def test_attribution_by_sector_sums_to_day_pnl(loader):
+    """Per-sector ₹ contributions must sum to the snapshot's day P&L (within float tol)."""
+    ctx = _ctx(loader, "PORTFOLIO_002")
+    attr = ctx.contribution_attribution
+    sector_sum = sum(attr.by_sector.values())
+    assert sector_sum == pytest.approx(ctx.portfolio_snapshot.day_pnl, abs=1.0)
+
+
+def test_p2_top_contributor_is_hdfcbank(loader):
+    """For Priya, HDFCBANK should be the largest absolute contributor (negative)."""
+    ctx = _ctx(loader, "PORTFOLIO_002")
+    assert ctx.contribution_attribution.top_contributors[0].identifier == "HDFCBANK"
+
+
+def test_p2_includes_interest_rate_up_macro_correlation(loader):
+    """RBI hawkish → INTEREST_RATE_UP correlation must be in the macro context for a banking-heavy portfolio."""
+    ctx = _ctx(loader, "PORTFOLIO_002")
+    assert "INTEREST_RATE_UP" in ctx.relevant_macro_correlations
+    impact = ctx.relevant_macro_correlations["INTEREST_RATE_UP"]
+    assert "BANKING" in impact["negative_impact"]
+
+
+def test_macro_correlations_filtered_to_held_sectors(loader):
+    """Every surfaced correlation must touch a sector the portfolio is exposed to."""
+    ctx = _ctx(loader, "PORTFOLIO_002")
+    held = (
+        set(ctx.portfolio_snapshot.sector_allocation_lookthrough.keys())
+        | set(ctx.portfolio_snapshot.sector_allocation.keys())
+    )
+    for event, impact in ctx.relevant_macro_correlations.items():
+        sectors_touched = (
+            set(impact.get("negative_impact", []))
+            | set(impact.get("positive_impact", []))
+            | set(impact.get("neutral", []))
+        )
+        assert sectors_touched & held, f"{event} touches no held sector"
+
+
+def test_context_to_dict_includes_new_fields(loader):
+    ctx = _ctx(loader, "PORTFOLIO_002")
+    payload = ctx.to_dict()
+    assert "contribution_attribution" in payload
+    assert payload["contribution_attribution"]["by_sector"]
+    assert "relevant_macro_correlations" in payload
