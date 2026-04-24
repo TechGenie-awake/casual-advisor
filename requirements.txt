@@ -1,0 +1,10 @@
+# Pinned for Streamlit Community Cloud deploys (which don't run pyproject.toml extras).
+# Core
+pydantic>=2.6
+anthropic>=0.39
+groq>=0.11
+langfuse>=3.0,<4
+python-dotenv>=1.0
+# UI
+streamlit>=1.36
+plotly>=5.20

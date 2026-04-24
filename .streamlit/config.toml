@@ -1,0 +1,18 @@
+# Streamlit theme + runtime config.
+# Picked up automatically by `streamlit run app.py` and by Streamlit Community Cloud.
+
+[theme]
+base = "dark"
+primaryColor = "#22c55e"
+backgroundColor = "#0f172a"
+secondaryBackgroundColor = "#1e293b"
+textColor = "#f1f5f9"
+
+[server]
+# XSRF protection on; CORS protected via origin headers.
+enableCORS = true
+enableXsrfProtection = true
+headless = true
+
+[browser]
+gatherUsageStats = false
