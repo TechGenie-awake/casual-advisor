@@ -388,6 +388,43 @@ def _generate(portfolio_id: str, provider: str, model: str, use_judge: bool):
     st.session_state["last_model"] = model
 
 
+def _explain_llm_error(exc: Exception) -> tuple[str, str]:
+    """Map a low-level LLM exception to a (icon, message) pair for st.error."""
+    name = type(exc).__name__
+    text = str(exc)
+    if "RateLimit" in name or "429" in text:
+        return (
+            ":material/timer:",
+            "**Groq free-tier rate limit hit.**\n\n"
+            "Llama 3.3 70B allows ~12,000 tokens/minute, and one briefing + LLM-as-judge "
+            "burns through ~14,000 tokens. You can:\n"
+            "- **Wait ~30 seconds** and click Generate again, or\n"
+            "- Switch to **llama-3.1-8b-instant** in the sidebar (higher rate limit, faster), or\n"
+            "- Uncheck **Run LLM-as-judge during eval** to halve token usage, or\n"
+            "- Switch the provider to **mock** to demo the pipeline without any LLM call."
+        )
+    if "Authentication" in name or "401" in text:
+        return (
+            ":material/key:",
+            "**LLM authentication failed.** Check that the API key in your `.env` "
+            "(or Streamlit Cloud Secrets) matches the provider you selected.",
+        )
+    if "BadRequest" in name or "400" in text:
+        return (
+            ":material/report:",
+            f"**Bad request to the LLM:** {text}",
+        )
+    if "Connection" in name or "Timeout" in name:
+        return (
+            ":material/wifi_off:",
+            "**Network error reaching the LLM provider.** Check your connection and retry.",
+        )
+    return (
+        ":material/error:",
+        f"**Failed to generate briefing:** `{name}` — {text}",
+    )
+
+
 if st.session_state.pop("regen", False):
     with st.spinner("Generating briefing… (1–3 s)"):
         try:
@@ -397,8 +434,9 @@ if st.session_state.pop("regen", False):
                 st.session_state["pending_model"],
                 st.session_state["pending_use_judge"],
             )
-        except RuntimeError as exc:
-            st.error(str(exc))
+        except Exception as exc:  # noqa: BLE001 — UI must always render something
+            icon, message = _explain_llm_error(exc)
+            st.error(message, icon=icon)
             st.stop()
 
 
@@ -477,23 +515,53 @@ run = st.session_state["run"]
 eval_result = st.session_state["eval_result"]
 snap = ctx.portfolio_snapshot
 
-# --- Header ---
-st.markdown(
-    f"# :material/account_balance_wallet: {snap.portfolio_id} · {snap.user_name}"
-)
+# --- Top action bar (back + rerun + heading) ---
+nav_col, title_col, rerun_col = st.columns([1.2, 5, 1.5])
+with nav_col:
+    if st.button(
+        ":material/arrow_back: Portfolios",
+        use_container_width=True,
+        help="Clear this briefing and return to the portfolio picker.",
+    ):
+        for _k in ("run", "context", "eval_result", "client",
+                   "chat_session", "chat_agent", "last_provider", "last_model"):
+            st.session_state.pop(_k, None)
+        st.rerun()
+with rerun_col:
+    if st.button(
+        ":material/refresh: Re-run",
+        use_container_width=True,
+        type="primary",
+        help="Regenerate the briefing for this portfolio with the same settings.",
+    ):
+        queue_briefing(
+            snap.portfolio_id,
+            provider=st.session_state["last_provider"],
+            model=st.session_state["last_model"],
+            use_judge=st.session_state.get("pending_use_judge", True),
+        )
+        st.rerun()
 
-# Status row (provider · model · tracing pill)
+with title_col:
+    st.markdown(
+        f"### :material/account_balance_wallet: {snap.portfolio_id} · {snap.user_name}"
+    )
+
+# Status row (risk · provider · tracing pill) + sidebar hint
 tracing_pill = (
     '<span class="pill pill-on">:material/cloud_done: Tracing on</span>'
     if tracer.enabled else
     '<span class="pill pill-off">:material/cloud_off: Tracing off</span>'
 )
 st.markdown(
-    f"<div style='display:flex;gap:0.5rem;align-items:center;margin-bottom:1rem;'>"
+    f"<div style='display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;"
+    f"margin-bottom:1rem;'>"
     f"<span class='pill pill-info'>:material/account_circle: {snap.risk_profile.title()}</span>"
     f"<span class='pill pill-info'>:material/bolt: "
     f"{st.session_state['last_provider']} · {st.session_state['last_model']}</span>"
     f"{tracing_pill}"
+    f"<span class='pill pill-off'>:material/menu: Sidebar (left) "
+    f"to switch provider / model / portfolio</span>"
     f"</div>",
     unsafe_allow_html=True,
 )
@@ -788,5 +856,6 @@ if question_to_ask:
             try:
                 turn = chat_agent.ask(session, question_to_ask, trace_span=run.trace)
                 st.markdown(turn.answer)
-            except Exception as exc:
-                st.error(f"Chat call failed: {exc}", icon=":material/error:")
+            except Exception as exc:  # noqa: BLE001 — chat must never crash the page
+                icon, message = _explain_llm_error(exc)
+                st.error(message, icon=icon)
