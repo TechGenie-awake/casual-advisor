@@ -30,7 +30,9 @@ except ImportError:
     pass
 
 from financial_agent.data_loader import DataLoader  # noqa: E402
+from financial_agent.evaluation import BriefingEvaluator  # noqa: E402
 from financial_agent.market import MarketAnalyzer, NewsProcessor, SectorAnalyzer  # noqa: E402
+from financial_agent.observability import Tracer  # noqa: E402
 from financial_agent.portfolio import PortfolioAnalyzer  # noqa: E402
 from financial_agent.reasoning import (  # noqa: E402
     MockLLMClient,
@@ -130,6 +132,16 @@ def main() -> int:
         action="store_true",
         help="Print the rendered user prompt and exit.",
     )
+    parser.add_argument(
+        "--no-eval",
+        action="store_true",
+        help="Skip the self-evaluation pass.",
+    )
+    parser.add_argument(
+        "--no-judge",
+        action="store_true",
+        help="Skip the LLM-as-judge call (rule-based eval only — no extra API call).",
+    )
     args = parser.parse_args()
 
     loader = DataLoader(DATA_DIR)
@@ -168,9 +180,21 @@ def main() -> int:
     if client == "DEFER_TO_DRY_RUN":
         client = MockLLMClient.from_context(context)
 
-    agent = ReasoningAgent(client=client)
+    tracer = Tracer()
+    agent = ReasoningAgent(client=client, tracer=tracer)
     run = agent.generate(context)
 
+    # --- Self-evaluation -------------------------------------------------
+    eval_result = None
+    if not args.no_eval:
+        # Reuse the same client for the judge unless it's the deterministic mock.
+        judge_client = None if (args.no_judge or args.dry_run) else client
+        evaluator = BriefingEvaluator(judge_client=judge_client, tracer=tracer)
+        eval_result = evaluator.score(
+            run.briefing, context, trace_span=run.trace
+        )
+
+    # --- Output ----------------------------------------------------------
     if args.emit_json:
         out = run.briefing.to_dict()
         out["_meta"] = {
@@ -178,15 +202,32 @@ def main() -> int:
             "input_tokens": run.response.input_tokens,
             "output_tokens": run.response.output_tokens,
             "rule_based_confidence": round(run.rule_based_confidence, 2),
+            "tracing_enabled": tracer.enabled,
         }
+        if eval_result:
+            out["evaluation"] = eval_result.to_dict()
         print(json.dumps(out, indent=2, ensure_ascii=False))
     else:
         print(run.briefing.to_markdown())
         print()
         print(
             f"_Tokens: in={run.response.input_tokens} out={run.response.output_tokens} "
-            f"| Rule-based confidence: {run.rule_based_confidence:.2f}_"
+            f"| Rule-based confidence: {run.rule_based_confidence:.2f}"
+            f" | Tracing: {'on' if tracer.enabled else 'off'}_"
         )
+        if eval_result:
+            print()
+            print(eval_result.to_markdown())
+
+    # End the trace explicitly so Langfuse flushes.
+    tracer.end_briefing(
+        run.trace,
+        output={
+            "headline": run.briefing.headline,
+            "confidence": run.briefing.confidence,
+            "eval_overall": (eval_result.overall_score if eval_result else None),
+        },
+    )
 
     return 0
 
