@@ -3,6 +3,8 @@
 > An autonomous financial-advisor agent for Indian equity portfolios that **reasons in causal chains**, not data dumps.
 > Given a portfolio, it links *macro news → sector trends → individual stocks → portfolio impact* with quantified ₹ contributions, flags conflicting signals (positive news vs. negative price action), and grades its own output against a 5-dimension rubric.
 
+**[▶ Live app — casual-advisor.streamlit.app](https://casual-advisor.streamlit.app/)** &nbsp; · &nbsp; **[GitHub](https://github.com/TechGenie-awake/casual-advisor)**
+
 Built for the AI Engineering Challenge brief in [Agent Assignment/](Agent%20Assignment/).
 
 ---
@@ -284,8 +286,13 @@ but the minimal IT allocation reduced the positive impact of INFY's deal win._
 
 ## Live demo
 
-> **Demo URL:** _coming soon — will be deployed to Streamlit Community Cloud_
-> **Demo video:** _coming soon (2–3 min walkthrough)_
+**Try it now:** https://casual-advisor.streamlit.app/
+
+Pick a portfolio in the sidebar, choose `groq` (free tier) or `mock` (no API key), and click **Generate briefing**. Then ask a follow-up question in the chat at the bottom.
+
+> If you hit a Groq rate limit (free tier is ~12k tokens/min), switch the **LLM provider** dropdown to `mock` to see the deterministic pipeline output without any API call.
+
+**Demo video:** _coming soon (2–3 min walkthrough)_
 
 ---
 
