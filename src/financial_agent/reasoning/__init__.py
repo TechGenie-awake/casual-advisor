@@ -16,6 +16,7 @@ from financial_agent.reasoning.briefing import (
     ConflictNote,
     Recommendation,
 )
+from financial_agent.reasoning.chat import ChatAgent, ChatMessage, ChatSession, ChatTurn
 from financial_agent.reasoning.client import (
     AnthropicClient,
     BaseLLMClient,
@@ -29,6 +30,10 @@ __all__ = [
     "BaseLLMClient",
     "Briefing",
     "CausalLink",
+    "ChatAgent",
+    "ChatMessage",
+    "ChatSession",
+    "ChatTurn",
     "ConflictNote",
     "GroqClient",
     "MockLLMClient",
