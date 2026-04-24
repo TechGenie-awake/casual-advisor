@@ -37,6 +37,7 @@ try:
         "LANGFUSE_PUBLIC_KEY",
         "LANGFUSE_SECRET_KEY",
         "LANGFUSE_HOST",
+        "LANGFUSE_BASE_URL",
     ):
         if _key in _bootstrap_st.secrets and not os.environ.get(_key):
             os.environ[_key] = str(_bootstrap_st.secrets[_key])
@@ -63,14 +64,157 @@ DATA_DIR = ROOT / "data"
 
 
 # ---------------------------------------------------------------------------
-# Streamlit page setup
+# Streamlit page setup + CSS polish
 # ---------------------------------------------------------------------------
 
 st.set_page_config(
     page_title="Causal Advisor",
-    page_icon="💹",
+    page_icon="📈",
     layout="wide",
     initial_sidebar_state="expanded",
+)
+
+
+# Inline CSS for smoother cards, tighter spacing, cleaner typography.
+# Targets Streamlit's stable data-testid selectors so it survives minor upgrades.
+st.markdown(
+    """
+    <style>
+      /* Hide Streamlit chrome */
+      #MainMenu, footer, header[data-testid="stHeader"] {visibility: hidden; height: 0;}
+
+      /* Page padding */
+      [data-testid="stMain"] [data-testid="stMainBlockContainer"] {
+          padding-top: 2rem;
+          padding-bottom: 4rem;
+          max-width: 1400px;
+      }
+
+      /* Metric tiles — softer card look */
+      [data-testid="stMetric"] {
+          background: rgba(30, 41, 59, 0.55);
+          border: 1px solid rgba(148, 163, 184, 0.10);
+          border-radius: 14px;
+          padding: 1.1rem 1.25rem;
+          transition: border-color 120ms ease, transform 120ms ease;
+      }
+      [data-testid="stMetric"]:hover {
+          border-color: rgba(34, 197, 94, 0.35);
+      }
+      [data-testid="stMetric"] [data-testid="stMetricLabel"] {
+          color: rgba(241, 245, 249, 0.65);
+          font-size: 0.78rem;
+          letter-spacing: 0.02em;
+          text-transform: uppercase;
+          font-weight: 500;
+      }
+      [data-testid="stMetric"] [data-testid="stMetricValue"] {
+          font-size: 1.65rem;
+          font-weight: 600;
+          letter-spacing: -0.01em;
+      }
+
+      /* Containers with border= — softer corners + subtle shadow */
+      [data-testid="stVerticalBlockBorderWrapper"] {
+          border-radius: 14px !important;
+          border-color: rgba(148, 163, 184, 0.10) !important;
+          background: rgba(30, 41, 59, 0.35);
+          padding: 0.4rem 0.6rem;
+      }
+
+      /* Tabs — bigger, cleaner tab labels */
+      .stTabs [data-baseweb="tab-list"] {
+          gap: 0.4rem;
+          border-bottom: 1px solid rgba(148, 163, 184, 0.10);
+      }
+      .stTabs [data-baseweb="tab"] {
+          padding: 0.6rem 1rem;
+          font-size: 0.95rem;
+          color: rgba(241, 245, 249, 0.65);
+          background: transparent;
+      }
+      .stTabs [aria-selected="true"] {
+          color: #f1f5f9;
+          font-weight: 600;
+      }
+
+      /* Sidebar polish */
+      [data-testid="stSidebar"] {
+          background: rgba(15, 23, 42, 0.85);
+          border-right: 1px solid rgba(148, 163, 184, 0.08);
+      }
+      [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] h1 {
+          font-size: 1.25rem;
+          letter-spacing: -0.01em;
+          margin-bottom: 0.2rem;
+      }
+
+      /* Buttons — smoother */
+      [data-testid="stBaseButton-secondary"],
+      [data-testid="stBaseButton-primary"] {
+          border-radius: 10px;
+          font-weight: 500;
+          transition: transform 80ms ease, box-shadow 80ms ease;
+      }
+      [data-testid="stBaseButton-primary"]:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(34, 197, 94, 0.25);
+      }
+
+      /* Chat input + messages */
+      [data-testid="stChatInput"] {
+          border-radius: 14px;
+      }
+      [data-testid="stChatMessage"] {
+          background: rgba(30, 41, 59, 0.45);
+          border: 1px solid rgba(148, 163, 184, 0.08);
+          border-radius: 14px;
+      }
+
+      /* Subtler dividers */
+      hr {
+          border-color: rgba(148, 163, 184, 0.12) !important;
+          margin: 1.4rem 0;
+      }
+
+      /* Section headers */
+      h1, h2, h3 {
+          letter-spacing: -0.015em;
+      }
+      h3 {
+          font-weight: 600;
+          margin-top: 1rem;
+      }
+
+      /* Severity / priority badges (used inline below) */
+      .pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.35rem;
+          padding: 0.18rem 0.6rem;
+          border-radius: 999px;
+          font-size: 0.78rem;
+          font-weight: 600;
+          letter-spacing: 0.01em;
+      }
+      .pill-critical { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3); }
+      .pill-warn     { background: rgba(234, 179, 8, 0.15); color: #fde68a; border: 1px solid rgba(234, 179, 8, 0.3); }
+      .pill-info     { background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3); }
+      .pill-high     { background: rgba(239, 68, 68, 0.12); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.25); }
+      .pill-medium   { background: rgba(234, 179, 8, 0.12); color: #fde68a; border: 1px solid rgba(234, 179, 8, 0.25); }
+      .pill-low      { background: rgba(34, 197, 94, 0.12); color: #86efac; border: 1px solid rgba(34, 197, 94, 0.25); }
+      .pill-on       { background: rgba(34, 197, 94, 0.15); color: #86efac; border: 1px solid rgba(34, 197, 94, 0.3); }
+      .pill-off      { background: rgba(148, 163, 184, 0.12); color: #cbd5e1; border: 1px solid rgba(148, 163, 184, 0.25); }
+
+      .pill code, .mono {
+          background: rgba(148, 163, 184, 0.10);
+          padding: 0.1rem 0.45rem;
+          border-radius: 6px;
+          font-size: 0.82rem;
+      }
+    </style>
+    """,
+    unsafe_allow_html=True,
 )
 
 
@@ -123,11 +267,12 @@ loader = get_loader()
 tracer = get_tracer()
 
 with st.sidebar:
-    st.title("💹 Causal Advisor")
+    st.markdown("# :material/insights: Causal Advisor")
     st.caption("Reasoning-first financial advisor agent.")
+    st.markdown("")
 
     portfolio_options = {
-        pid: f"{pid} — {p.user_name} ({p.portfolio_type.replace('_', ' ').title()})"
+        pid: f"{pid} — {p.user_name}"
         for pid, p in loader.portfolios.items()
     }
     portfolio_id = st.selectbox(
@@ -135,6 +280,12 @@ with st.sidebar:
         options=list(portfolio_options.keys()),
         format_func=lambda pid: portfolio_options[pid],
         index=1,  # default to PORTFOLIO_002 (the dramatic one)
+    )
+
+    portfolio_obj = loader.portfolios[portfolio_id]
+    st.caption(
+        f"_{portfolio_obj.portfolio_type.replace('_', ' ').title()} · "
+        f"{portfolio_obj.risk_profile.title()} risk_"
     )
 
     st.divider()
@@ -164,8 +315,11 @@ with st.sidebar:
 
     st.divider()
 
-    if st.button("Generate briefing", type="primary", use_container_width=True):
-        # Reset chat when generating a new briefing.
+    if st.button(
+        ":material/rocket_launch: Generate briefing",
+        type="primary",
+        use_container_width=True,
+    ):
         st.session_state.pop("chat_session", None)
         st.session_state["regen"] = True
         st.session_state["pending_portfolio"] = portfolio_id
@@ -173,10 +327,21 @@ with st.sidebar:
         st.session_state["pending_model"] = model
         st.session_state["pending_use_judge"] = use_judge
 
-    # Status footer
     st.divider()
-    st.caption(f"Tracing: {'🟢 on' if tracer.enabled else '⚪ off'}")
-    st.caption("Set LANGFUSE_* in .env to enable.")
+    if tracer.enabled:
+        st.markdown(
+            '<span class="pill pill-on">'
+            ':material/cloud_done: Tracing on</span>',
+            unsafe_allow_html=True,
+        )
+        st.caption("Langfuse credentials detected.")
+    else:
+        st.markdown(
+            '<span class="pill pill-off">'
+            ':material/cloud_off: Tracing off</span>',
+            unsafe_allow_html=True,
+        )
+        st.caption("Set `LANGFUSE_PUBLIC_KEY` + `LANGFUSE_SECRET_KEY` to enable.")
 
 
 # ---------------------------------------------------------------------------
@@ -197,7 +362,6 @@ def _generate(portfolio_id: str, provider: str, model: str, use_judge: bool):
     evaluator = BriefingEvaluator(judge_client=judge_client, tracer=tracer)
     eval_result = evaluator.score(run.briefing, ctx, trace_span=run.trace)
 
-    # Persist for chat + tabs.
     st.session_state["context"] = ctx
     st.session_state["run"] = run
     st.session_state["eval_result"] = eval_result
@@ -227,24 +391,48 @@ if st.session_state.pop("regen", False):
 # ---------------------------------------------------------------------------
 
 if "run" not in st.session_state:
-    st.title("Causal Advisor")
+    st.markdown("# :material/insights: Causal Advisor")
     st.markdown(
-        """
-Pick a portfolio in the sidebar and click **Generate briefing**.
+        "##### Reasoning-first financial advisor agent for Indian equity portfolios."
+    )
+    st.markdown("")
 
-Three sample portfolios from the assignment dataset are loaded:
+    intro_a, intro_b, intro_c = st.columns(3)
+    with intro_a:
+        with st.container(border=True):
+            st.markdown("**:material/insights: Causal reasoning**")
+            st.write(
+                "Links macro news → sector → stock → ₹ portfolio impact "
+                "with quantified attribution."
+            )
+    with intro_b:
+        with st.container(border=True):
+            st.markdown("**:material/compare_arrows: Conflict resolution**")
+            st.write(
+                "Surfaces divergent signals (positive news + negative price action) "
+                "and reconciles them with mechanism, not platitudes."
+            )
+    with intro_c:
+        with st.container(border=True):
+            st.markdown("**:material/fact_check: Self-evaluation**")
+            st.write(
+                "Every briefing is scored across 5 dimensions by both rule-based "
+                "checks and an LLM-as-judge."
+            )
 
-- **PORTFOLIO_001** — Diversified (Rahul Sharma, well-balanced)
-- **PORTFOLIO_002** — Sector-concentrated (Priya Patel, **91% banking + FS**)
-- **PORTFOLIO_003** — Conservative (Arun Krishnamurthy, mutual-fund heavy)
+    st.markdown("")
+    st.markdown("##### Sample portfolios")
+    for pid, p in loader.portfolios.items():
+        with st.container(border=True):
+            cols = st.columns([2, 1, 1])
+            cols[0].markdown(f"**{pid} — {p.user_name}**")
+            cols[0].caption(p.description)
+            cols[1].metric("Holdings", len(p.stocks) + len(p.mutual_funds))
+            cols[2].metric("Risk profile", p.risk_profile.title())
 
-Each briefing produces:
-1. A **causal chain** linking macro news → sector → stock → ₹ portfolio impact
-2. **Conflict resolution** for divergent signals (e.g., positive news + falling price)
-3. A **5-dimension self-evaluation** with rule-based + LLM-as-judge scores
-
-You can then ask follow-up questions in the chat box that appears at the bottom.
-"""
+    st.info(
+        "Pick a portfolio in the sidebar and click **Generate briefing**.",
+        icon=":material/touch_app:",
     )
     st.stop()
 
@@ -259,12 +447,24 @@ eval_result = st.session_state["eval_result"]
 snap = ctx.portfolio_snapshot
 
 # --- Header ---
-st.title(f"💹 {snap.portfolio_id} — {snap.user_name}")
-st.caption(
-    f"{snap.risk_profile.title()} risk profile · "
-    f"Provider: **{st.session_state['last_provider']}** "
-    f"({st.session_state['last_model']}) · "
-    f"Tracing: {'🟢 on' if tracer.enabled else '⚪ off'}"
+st.markdown(
+    f"# :material/account_balance_wallet: {snap.portfolio_id} · {snap.user_name}"
+)
+
+# Status row (provider · model · tracing pill)
+tracing_pill = (
+    '<span class="pill pill-on">:material/cloud_done: Tracing on</span>'
+    if tracer.enabled else
+    '<span class="pill pill-off">:material/cloud_off: Tracing off</span>'
+)
+st.markdown(
+    f"<div style='display:flex;gap:0.5rem;align-items:center;margin-bottom:1rem;'>"
+    f"<span class='pill pill-info'>:material/account_circle: {snap.risk_profile.title()}</span>"
+    f"<span class='pill pill-info'>:material/bolt: "
+    f"{st.session_state['last_provider']} · {st.session_state['last_model']}</span>"
+    f"{tracing_pill}"
+    f"</div>",
+    unsafe_allow_html=True,
 )
 
 # --- Metric tiles ---
@@ -281,25 +481,31 @@ col_b.metric(
     delta_color="normal",
 )
 col_c.metric(
-    "Self-reported confidence",
+    "Self-reported",
     f"{run.briefing.confidence:.2f}",
     help=run.briefing.confidence_rationale,
 )
 col_d.metric(
-    "Rule-based confidence",
+    "Rule-based",
     f"{run.rule_based_confidence:.2f}",
 )
 col_e.metric(
     "Eval overall",
     f"{eval_result.overall_score:.2f}",
-    help=eval_result.summary or "Hybrid rule + judge score across 5 dimensions.",
+    help=eval_result.summary or "Hybrid rule + judge across 5 dimensions.",
 )
 
 st.divider()
 
 # --- Tabs ---
 tab_brief, tab_holdings, tab_risks, tab_eval, tab_context = st.tabs(
-    ["📝 Briefing", "📊 Holdings & Allocation", "⚠️ Risks", "🧪 Self-evaluation", "🔍 Raw context"]
+    [
+        ":material/article: Briefing",
+        ":material/pie_chart: Holdings & Allocation",
+        ":material/warning: Risks",
+        ":material/fact_check: Self-evaluation",
+        ":material/code: Raw context",
+    ]
 )
 
 with tab_brief:
@@ -307,30 +513,46 @@ with tab_brief:
     st.caption(f"_{run.briefing.confidence_rationale}_")
     st.markdown("#### Causal chain")
     if not run.briefing.causal_chain:
-        st.info("No causal links produced.")
+        st.info("No causal links produced.", icon=":material/info:")
     for i, link in enumerate(run.briefing.causal_chain, 1):
         with st.container(border=True):
-            st.markdown(f"**{i}. {link.macro_event}**")
-            st.markdown(f"- **Sector:** {link.sector_impact}")
-            st.markdown(f"- **Stocks:** {link.stock_impact}")
-            st.markdown(f"- **Portfolio:** {link.portfolio_impact}")
+            st.markdown(f"##### {i}. {link.macro_event}")
+            st.markdown(f":material/category: **Sector** &nbsp; {link.sector_impact}")
+            st.markdown(f":material/show_chart: **Stocks** &nbsp; {link.stock_impact}")
+            st.markdown(f":material/account_balance_wallet: **Portfolio** &nbsp; {link.portfolio_impact}")
             if link.evidence_ids:
-                st.caption("Evidence: " + ", ".join(link.evidence_ids))
+                st.caption(
+                    ":material/link: Evidence — "
+                    + ", ".join(f"`{e}`" for e in link.evidence_ids)
+                )
 
     if run.briefing.conflicts:
         st.markdown("#### Conflicting signals")
         for c in run.briefing.conflicts:
             with st.container(border=True):
-                st.markdown(f"**{c.description}**")
+                st.markdown(f":material/compare_arrows: **{c.description}**")
                 st.markdown(f"_Resolution:_ {c.resolution}")
                 if c.evidence_ids:
-                    st.caption("Evidence: " + ", ".join(c.evidence_ids))
+                    st.caption(
+                        ":material/link: Evidence — "
+                        + ", ".join(f"`{e}`" for e in c.evidence_ids)
+                    )
 
     if run.briefing.recommendations:
         st.markdown("#### Recommendations")
-        priority_color = {"HIGH": "🔴", "MEDIUM": "🟡", "LOW": "🟢"}
+        priority_class = {"HIGH": "pill-high", "MEDIUM": "pill-medium", "LOW": "pill-low"}
+        priority_icon = {
+            "HIGH": ":material/priority_high:",
+            "MEDIUM": ":material/drag_handle:",
+            "LOW": ":material/low_priority:",
+        }
         for r in run.briefing.recommendations:
-            st.markdown(f"{priority_color.get(r.priority, '•')} **{r.priority}** — {r.text}")
+            cls = priority_class.get(r.priority, "pill-info")
+            icon = priority_icon.get(r.priority, ":material/circle:")
+            st.markdown(
+                f'<span class="pill {cls}">{icon} {r.priority}</span> &nbsp; {r.text}',
+                unsafe_allow_html=True,
+            )
 
 with tab_holdings:
     left, right = st.columns(2)
@@ -343,8 +565,14 @@ with tab_holdings:
             labels, values = zip(*sector_data)
             fig = px.pie(
                 names=labels, values=values, hole=0.55,
+                color_discrete_sequence=px.colors.sequential.Greens_r,
             )
-            fig.update_layout(height=350, margin=dict(l=0, r=0, t=10, b=10))
+            fig.update_layout(
+                height=350, margin=dict(l=0, r=0, t=10, b=10),
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="rgba(0,0,0,0)",
+                font=dict(color="#cbd5e1"),
+            )
             st.plotly_chart(fig, use_container_width=True)
     with right:
         st.markdown("#### Sector allocation (look-through)")
@@ -357,32 +585,38 @@ with tab_holdings:
             fig2 = px.bar(
                 x=values, y=labels, orientation="h",
                 labels={"x": "Weight (%)", "y": ""},
+                color=values,
+                color_continuous_scale="Greens",
             )
             fig2.update_layout(
                 height=350, margin=dict(l=0, r=0, t=10, b=10),
                 yaxis=dict(autorange="reversed"),
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="rgba(0,0,0,0)",
+                font=dict(color="#cbd5e1"),
+                coloraxis_showscale=False,
             )
             st.plotly_chart(fig2, use_container_width=True)
 
     st.markdown("#### Day movers")
     g_col, l_col = st.columns(2)
     with g_col:
-        st.markdown("**Top gainers**")
+        st.markdown(":material/trending_up: **Top gainers**")
         if not snap.top_gainers:
             st.caption("(none)")
         for m in snap.top_gainers:
-            st.write(
-                f"`{m.identifier}` {m.day_change_percent:+.2f}% — "
-                f"₹{m.day_change_value:+,.0f} ({m.weight_percent:.1f}% weight)"
+            st.markdown(
+                f"`{m.identifier}` &nbsp; **{m.day_change_percent:+.2f}%** &nbsp; "
+                f"₹{m.day_change_value:+,.0f} &nbsp; ({m.weight_percent:.1f}% weight)"
             )
     with l_col:
-        st.markdown("**Top losers**")
+        st.markdown(":material/trending_down: **Top losers**")
         if not snap.top_losers:
             st.caption("(none)")
         for m in snap.top_losers:
-            st.write(
-                f"`{m.identifier}` {m.day_change_percent:+.2f}% — "
-                f"₹{m.day_change_value:+,.0f} ({m.weight_percent:.1f}% weight)"
+            st.markdown(
+                f"`{m.identifier}` &nbsp; **{m.day_change_percent:+.2f}%** &nbsp; "
+                f"₹{m.day_change_value:+,.0f} &nbsp; ({m.weight_percent:.1f}% weight)"
             )
 
     st.markdown("#### Asset type")
@@ -392,19 +626,34 @@ with tab_holdings:
 
 with tab_risks:
     if not snap.risks:
-        st.success("No risk flags triggered. Portfolio looks balanced.")
+        st.success(
+            "No risk flags triggered. Portfolio looks balanced.",
+            icon=":material/check_circle:",
+        )
     else:
         st.caption(f"{len(snap.risks)} flag(s) raised against the threshold rules.")
-        sev_emoji = {"CRITICAL": "🔴", "WARN": "🟡", "INFO": "🔵"}
+        sev_class = {
+            "CRITICAL": "pill-critical",
+            "WARN": "pill-warn",
+            "INFO": "pill-info",
+        }
+        sev_icon = {
+            "CRITICAL": ":material/error:",
+            "WARN": ":material/warning:",
+            "INFO": ":material/info:",
+        }
         for r in snap.risks:
             with st.container(border=True):
+                cls = sev_class.get(r.severity.value, "pill-info")
+                icon = sev_icon.get(r.severity.value, ":material/circle:")
                 st.markdown(
-                    f"{sev_emoji.get(r.severity.value, '•')} "
-                    f"**{r.severity.value}** — `{r.code}`"
+                    f'<span class="pill {cls}">{icon} {r.severity.value}</span> '
+                    f'&nbsp; <code class="mono">{r.code}</code>',
+                    unsafe_allow_html=True,
                 )
                 st.write(r.message)
                 if r.metric is not None:
-                    st.caption(f"Metric: {r.metric:.2f}")
+                    st.caption(f":material/percent: Metric — {r.metric:.2f}")
 
 with tab_eval:
     st.markdown(
@@ -412,9 +661,8 @@ with tab_eval:
         f"({'rule + judge' if eval_result.judge_used else 'rule-only'})"
     )
     if eval_result.summary:
-        st.info(eval_result.summary)
+        st.info(eval_result.summary, icon=":material/lightbulb:")
 
-    # Combined-score bar chart
     dim_names = [d.name for d in eval_result.dimensions]
     combined = [d.combined for d in eval_result.dimensions]
     fig = px.bar(
@@ -422,15 +670,20 @@ with tab_eval:
         labels={"x": "Combined score (0–1)", "y": ""},
         range_x=[0, 1],
         text=[f"{v:.2f}" for v in combined],
+        color=combined,
+        color_continuous_scale="Greens",
     )
     fig.update_traces(textposition="outside")
     fig.update_layout(
         height=300, margin=dict(l=0, r=0, t=10, b=10),
         yaxis=dict(autorange="reversed"),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(color="#cbd5e1"),
+        coloraxis_showscale=False,
     )
     st.plotly_chart(fig, use_container_width=True)
 
-    # Per-dimension table
     rows = []
     for d in eval_result.dimensions:
         rows.append({
@@ -447,9 +700,9 @@ with tab_context:
     st.caption(
         "The exact JSON the LLM saw. Every figure in the briefing must trace back to this."
     )
-    with st.expander("Reasoning context (full JSON)", expanded=False):
+    with st.expander(":material/data_object: Reasoning context (full JSON)", expanded=False):
         st.json(ctx.to_dict())
-    with st.expander("Raw LLM response (XML)", expanded=False):
+    with st.expander(":material/code: Raw LLM response (XML)", expanded=False):
         st.code(run.briefing.raw_response or "(none)", language="xml")
 
 
@@ -458,7 +711,7 @@ with tab_context:
 # ---------------------------------------------------------------------------
 
 st.divider()
-st.markdown("### 💬 Ask a follow-up")
+st.markdown("### :material/forum: Ask a follow-up")
 st.caption(
     "Questions are answered using the same briefing + context above. "
     "The agent will refuse to invent data outside the context."
@@ -467,14 +720,19 @@ st.caption(
 session: ChatSession = st.session_state["chat_session"]
 chat_agent: ChatAgent = st.session_state["chat_agent"]
 
+# Avatars
+USER_AVATAR = ":material/person:"
+ASSISTANT_AVATAR = ":material/smart_toy:"
+
 # Render existing history
 for msg in session.messages:
-    with st.chat_message(msg.role):
+    avatar = USER_AVATAR if msg.role == "user" else ASSISTANT_AVATAR
+    with st.chat_message(msg.role, avatar=avatar):
         st.markdown(msg.content)
 
 # Suggested prompts when chat is empty
 if not session.messages:
-    st.markdown("**Try one of these:**")
+    st.markdown(":material/lightbulb: **Try one of these:**")
     cols = st.columns(3)
     suggestions = [
         "What was the single largest contributor to today's loss?",
@@ -492,12 +750,12 @@ question_to_ask = st.session_state.pop("pending_question", None) or st.chat_inpu
 )
 
 if question_to_ask:
-    with st.chat_message("user"):
+    with st.chat_message("user", avatar=USER_AVATAR):
         st.markdown(question_to_ask)
-    with st.chat_message("assistant"):
+    with st.chat_message("assistant", avatar=ASSISTANT_AVATAR):
         with st.spinner("Thinking…"):
             try:
                 turn = chat_agent.ask(session, question_to_ask, trace_span=run.trace)
                 st.markdown(turn.answer)
             except Exception as exc:
-                st.error(f"Chat call failed: {exc}")
+                st.error(f"Chat call failed: {exc}", icon=":material/error:")
